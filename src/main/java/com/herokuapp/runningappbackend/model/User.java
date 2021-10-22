@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,6 +21,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @ManyToMany
+    private Set<Challenge> challenges = new HashSet<>();
+
     @NotBlank
     private String password;
 
@@ -28,6 +33,5 @@ public class User {
     @NotBlank
     private String firstName;
 
-    @NotBlank
     private String lastName;
 }
