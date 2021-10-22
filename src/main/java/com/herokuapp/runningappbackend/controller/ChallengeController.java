@@ -1,7 +1,7 @@
 package com.herokuapp.runningappbackend.controller;
 
-import com.herokuapp.runningappbackend.dto.UserDTO;
-import com.herokuapp.runningappbackend.service.UserServiceImpl;
+import com.herokuapp.runningappbackend.dto.ChallengeDTO;
+import com.herokuapp.runningappbackend.service.ChallengeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,42 +14,41 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class ChallengeController {
 
-    private final UserServiceImpl userService;
+    private final ChallengeServiceImpl challengeService;
 
-    public UserController(UserServiceImpl userService) {
-        this.userService = userService;
+    public ChallengeController(ChallengeServiceImpl challengeService) {
+        this.challengeService = challengeService;
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<Collection<UserDTO>> getAllUsers() {
+    @GetMapping("/challenges")
+    public ResponseEntity<Collection<ChallengeDTO>> getAllChallenges() {
         try {
-            Collection<UserDTO> users = userService.getAll();
+            Collection<ChallengeDTO> challenges = challengeService.getAll();
 
-            if (users.isEmpty()) {
+            if (challenges.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
-                return new ResponseEntity<>(users, HttpStatus.OK);
+                return new ResponseEntity<>(challenges, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<Optional<UserDTO>> getUserById(@PathVariable("id") Long id) {
+    @GetMapping("/challenges/{id}")
+    public ResponseEntity<Optional<ChallengeDTO>> getChallengeById(@PathVariable("id") Long id) {
         try {
-            Optional<UserDTO> user = userService.get(id);
+            Optional<ChallengeDTO> challenge = challengeService.get(id);
 
-            if (user.isEmpty()) {
+            if (challenge.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
-                return new ResponseEntity<>(user, HttpStatus.OK);
+                return new ResponseEntity<>(challenge, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

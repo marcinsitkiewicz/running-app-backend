@@ -31,10 +31,12 @@ public class Challenge {
     private Double amountToComplete;
 
     @NotBlank
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",
+                timezone = "Europe/Warsaw")
     private LocalDateTime startDate;
 
     @NotBlank
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",
+                timezone = "Europe/Warsaw")
     private LocalDateTime endDate;
 }

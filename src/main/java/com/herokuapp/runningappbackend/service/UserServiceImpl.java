@@ -27,7 +27,7 @@ public class UserServiceImpl implements IService<UserDTO> {
     public Collection<UserDTO> getAll() {
         List<User> users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "userId"));
 
-        return modelMapper.<List<UserDTO>>map(users, new TypeToken<List<UserDTO>>(){}.getType());
+        return modelMapper.map(users, new TypeToken<List<UserDTO>>(){}.getType());
     }
 
     @Override

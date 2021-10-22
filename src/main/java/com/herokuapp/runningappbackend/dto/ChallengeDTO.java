@@ -1,6 +1,5 @@
 package com.herokuapp.runningappbackend.dto;
 
-import com.herokuapp.runningappbackend.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import java.util.Set;
 public class ChallengeDTO {
 
     private Long challengeId;
-    private Set<User> participants;
+    private Set<UserDTO> participants;
     private String name;
     private String description;
     private Double amountToComplete;
