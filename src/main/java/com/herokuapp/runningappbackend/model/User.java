@@ -1,36 +1,34 @@
 package com.herokuapp.runningappbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@Table(	name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "email")
-        })
+@Table(name = "\"user\"")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long userId;
 
     @ManyToMany
-    private Set<Challenge> challenges = new HashSet<>();
+    public Set<Challenge> challenges = new HashSet<>();
 
-    @NotBlank
+    @JsonIgnore
     private String password;
 
-    @NotBlank
+    @Column(nullable = false, unique = true)
+    @JsonIgnore
     private String email;
 
-    @NotBlank
     private String firstName;
 
     private String lastName;

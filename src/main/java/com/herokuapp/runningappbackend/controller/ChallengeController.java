@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -38,11 +37,11 @@ public class ChallengeController {
     }
 
     @GetMapping("/challenges/{id}")
-    public ResponseEntity<Optional<ChallengeDTO>> getChallengeById(@PathVariable("id") Long id) {
+    public ResponseEntity<ChallengeDTO> getChallengeById(@PathVariable("id") Long id) {
         try {
-            Optional<ChallengeDTO> challenge = challengeService.get(id);
+            ChallengeDTO challenge = challengeService.get(id);
 
-            if (challenge.isEmpty()) {
+            if (challenge == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(challenge, HttpStatus.OK);

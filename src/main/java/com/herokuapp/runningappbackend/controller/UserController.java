@@ -1,25 +1,25 @@
 package com.herokuapp.runningappbackend.controller;
 
+import com.herokuapp.runningappbackend.dto.ChallengeDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
+import com.herokuapp.runningappbackend.service.ChallengeServiceImpl;
 import com.herokuapp.runningappbackend.service.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
     private final UserServiceImpl userService;
+    private final ChallengeServiceImpl challengeService;
 
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserServiceImpl userService, ChallengeServiceImpl challengeService) {
         this.userService = userService;
+        this.challengeService = challengeService;
     }
 
     @GetMapping("/users")
@@ -38,11 +38,11 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<Optional<UserDTO>> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id) {
         try {
-            Optional<UserDTO> user = userService.get(id);
+            UserDTO user = userService.get(id);
 
-            if (user.isEmpty()) {
+            if (user == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(user, HttpStatus.OK);
@@ -52,4 +52,20 @@ public class UserController {
         }
     }
 
+    // TODO: change mapping to take RequestBodies as arguments instead (if client app can manage sending them)
+    @PostMapping("/user/{userId}/join-challenge/{challengeId}")
+    public ResponseEntity<UserDTO> addUserToChallenge(@PathVariable("userId") Long userId,
+                                                      @PathVariable("challengeId") Long challengeId) {
+        try {
+            UserDTO user = userService.get(userId);
+            ChallengeDTO challenge = challengeService.get(challengeId);
+
+            UserDTO _userDTO = userService.addCourse(user, challenge);
+//            challengeService.addUser(user, challenge);
+
+            return new ResponseEntity<>(_userDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

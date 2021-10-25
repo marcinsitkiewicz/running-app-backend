@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,26 +15,24 @@ import java.util.Set;
 public class Challenge {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long challengeId;
 
     @ManyToMany(mappedBy = "challenges", fetch = FetchType.LAZY)
     private Set<User> participants = new HashSet<>();
 
-    @NotBlank
+    @Column(nullable = false, length = 100)
     private String name;
 
+    @Column(length = 1000)
     private String description;
 
-    @NotBlank
     private Double amountToComplete;
 
-    @NotBlank
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",
                 timezone = "Europe/Warsaw")
     private LocalDateTime startDate;
 
-    @NotBlank
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",
                 timezone = "Europe/Warsaw")
     private LocalDateTime endDate;
