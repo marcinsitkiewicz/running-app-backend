@@ -1,6 +1,7 @@
 package com.herokuapp.runningappbackend.service;
 
 import com.herokuapp.runningappbackend.dto.ChallengeDTO;
+import com.herokuapp.runningappbackend.dto.ChallengeFormDTO;
 import com.herokuapp.runningappbackend.exception.NoDataException;
 import com.herokuapp.runningappbackend.model.Challenge;
 import com.herokuapp.runningappbackend.repository.ChallengeRepository;
@@ -35,5 +36,12 @@ public class ChallengeServiceImpl implements IService<ChallengeDTO>{
         Challenge challenge = challengeRepository.findById(id).orElseThrow(NoDataException::new);
 
         return modelMapper.map(challenge, ChallengeDTO.class);
+    }
+
+    public ChallengeFormDTO create(ChallengeFormDTO challengeFormDTO) {
+        Challenge challenge = modelMapper.map(challengeFormDTO, Challenge.class);
+        challengeRepository.save(challenge);
+
+        return challengeFormDTO;
     }
 }

@@ -1,13 +1,11 @@
 package com.herokuapp.runningappbackend.controller;
 
 import com.herokuapp.runningappbackend.dto.ChallengeDTO;
+import com.herokuapp.runningappbackend.dto.ChallengeFormDTO;
 import com.herokuapp.runningappbackend.service.ChallengeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -24,12 +22,12 @@ public class ChallengeController {
     @GetMapping("/challenges")
     public ResponseEntity<Collection<ChallengeDTO>> getAllChallenges() {
         try {
-            Collection<ChallengeDTO> challenges = challengeService.getAll();
+            Collection<ChallengeDTO> challengesDTO = challengeService.getAll();
 
-            if (challenges.isEmpty()) {
+            if (challengesDTO.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
-                return new ResponseEntity<>(challenges, HttpStatus.OK);
+                return new ResponseEntity<>(challengesDTO, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -39,15 +37,22 @@ public class ChallengeController {
     @GetMapping("/challenges/{id}")
     public ResponseEntity<ChallengeDTO> getChallengeById(@PathVariable("id") Long id) {
         try {
-            ChallengeDTO challenge = challengeService.get(id);
+            ChallengeDTO challengeDTO = challengeService.get(id);
 
-            if (challenge == null) {
+            if (challengeDTO == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
-                return new ResponseEntity<>(challenge, HttpStatus.OK);
+                return new ResponseEntity<>(challengeDTO, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/add-challenge")
+    public ResponseEntity<ChallengeFormDTO> addChallenge(@RequestBody ChallengeFormDTO challengeFormDTO) {
+        challengeFormDTO = challengeService.create(challengeFormDTO);
+
+        return new ResponseEntity<>(challengeFormDTO, HttpStatus.OK);
     }
 }
