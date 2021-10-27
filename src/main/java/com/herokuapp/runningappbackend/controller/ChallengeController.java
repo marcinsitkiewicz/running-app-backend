@@ -2,7 +2,10 @@ package com.herokuapp.runningappbackend.controller;
 
 import com.herokuapp.runningappbackend.dto.ChallengeDTO;
 import com.herokuapp.runningappbackend.dto.ChallengeFormDTO;
+import com.herokuapp.runningappbackend.model.Challenge;
 import com.herokuapp.runningappbackend.service.ChallengeServiceImpl;
+import com.sipios.springsearch.anotation.SearchSpec;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,21 @@ public class ChallengeController {
     public ResponseEntity<Collection<ChallengeDTO>> getAllChallenges() {
         try {
             Collection<ChallengeDTO> challengesDTO = challengeService.getAll();
+
+            if (challengesDTO.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(challengesDTO, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/challenges/query")
+    public ResponseEntity<Collection<ChallengeDTO>> getAllChallenges(@SearchSpec Specification<Challenge> specs) {
+        try {
+            Collection<ChallengeDTO> challengesDTO = challengeService.queryAll(specs);
 
             if (challengesDTO.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

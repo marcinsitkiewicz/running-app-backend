@@ -2,8 +2,11 @@ package com.herokuapp.runningappbackend.controller;
 
 import com.herokuapp.runningappbackend.dto.ChallengeDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
+import com.herokuapp.runningappbackend.model.User;
 import com.herokuapp.runningappbackend.service.ChallengeServiceImpl;
 import com.herokuapp.runningappbackend.service.UserServiceImpl;
+import com.sipios.springsearch.anotation.SearchSpec;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,21 @@ public class UserController {
     public ResponseEntity<Collection<UserDTO>> getAllUsers() {
         try {
             Collection<UserDTO> users = userService.getAll();
+
+            if (users.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(users, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/users/query")
+    public ResponseEntity<Collection<UserDTO>> queryAllUsers(@SearchSpec Specification<User> specs) {
+        try {
+            Collection<UserDTO> users = userService.queryAll(specs);
 
             if (users.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -60,8 +78,7 @@ public class UserController {
             UserDTO user = userService.get(userId);
             ChallengeDTO challenge = challengeService.get(challengeId);
 
-            UserDTO _userDTO = userService.addCourse(user, challenge);
-//            challengeService.addUser(user, challenge);
+            UserDTO _userDTO = userService.addChallenge(user, challenge);
 
             return new ResponseEntity<>(_userDTO, HttpStatus.OK);
         } catch (Exception e) {

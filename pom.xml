@@ -62,6 +62,12 @@
             <artifactId>modelmapper</artifactId>
             <version>2.3.8</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.sipios</groupId>
+            <artifactId>spring-search</artifactId>
+            <version>0.2.4</version>
+        </dependency>
     </dependencies>
 
     <build>

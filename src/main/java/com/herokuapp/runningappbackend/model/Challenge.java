@@ -1,6 +1,7 @@
 package com.herokuapp.runningappbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ public class Challenge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long challengeId;
 
     @ManyToMany(mappedBy = "challenges", fetch = FetchType.LAZY)

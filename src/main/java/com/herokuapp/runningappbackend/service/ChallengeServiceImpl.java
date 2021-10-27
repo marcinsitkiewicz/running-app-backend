@@ -8,6 +8,7 @@ import com.herokuapp.runningappbackend.repository.ChallengeRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -43,5 +44,11 @@ public class ChallengeServiceImpl implements IService<ChallengeDTO>{
         challengeRepository.save(challenge);
 
         return challengeFormDTO;
+    }
+
+    public Collection<ChallengeDTO> queryAll(Specification<Challenge> specs) {
+        List<Challenge> challenges = challengeRepository.findAll(Specification.where(specs));
+
+        return modelMapper.map(challenges, new TypeToken<List<ChallengeDTO>>(){}.getType());
     }
 }

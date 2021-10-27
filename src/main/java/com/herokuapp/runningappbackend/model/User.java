@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,4 +33,6 @@ public class User {
     private String firstName;
 
     private String lastName;
+
+    private Date birthDate;
 }

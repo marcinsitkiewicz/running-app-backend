@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -20,4 +21,5 @@ public class UserDTO {
     private String email;
     private String firstName;
     private String lastName;
+    private Date birthDate;
 }

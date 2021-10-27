@@ -9,6 +9,7 @@ import com.herokuapp.runningappbackend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -41,7 +42,7 @@ public class UserServiceImpl implements IService<UserDTO> {
     }
 
     @Transactional
-    public UserDTO addCourse(UserDTO userDTO, ChallengeDTO challengeDTO) {
+    public UserDTO addChallenge(UserDTO userDTO, ChallengeDTO challengeDTO) {
         User user = modelMapper.map(userDTO, User.class);
         Challenge challenge = modelMapper.map(challengeDTO, Challenge.class);
         User _user = userRepository.findById(user.getUserId()).orElseThrow(NoDataException::new);
@@ -50,5 +51,11 @@ public class UserServiceImpl implements IService<UserDTO> {
         userRepository.save(_user);
 
         return modelMapper.map(_user, UserDTO.class);
+    }
+
+    public Collection<UserDTO> queryAll(Specification<User> specs) {
+        List<User> users = userRepository.findAll(Specification.where(specs));
+
+        return modelMapper.map(users, new TypeToken<List<UserDTO>>(){}.getType());
     }
 }
