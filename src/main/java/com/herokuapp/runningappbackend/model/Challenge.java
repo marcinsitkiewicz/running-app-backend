@@ -2,8 +2,8 @@ package com.herokuapp.runningappbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,17 +11,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@NoArgsConstructor
+@Data
+@Table(name = "\"challenge\"")
 public class Challenge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    private Long challengeId;
+    private Long id;
 
-    @ManyToMany(mappedBy = "challenges", fetch = FetchType.LAZY)
-    private Set<User> participants = new HashSet<>();
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
+    private Set<UserChallenge> userChallenges = new HashSet<>();
 
     @Column(nullable = false, length = 100)
     private String name;
@@ -38,4 +39,12 @@ public class Challenge {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",
                 timezone = "Europe/Warsaw")
     private LocalDateTime endDate;
+
+    public Challenge(String name, String description, Double amountToComplete, LocalDateTime startDate, LocalDateTime endDate) {
+        this.name = name;
+        this.description = description;
+        this.amountToComplete = amountToComplete;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

@@ -1,8 +1,8 @@
 package com.herokuapp.runningappbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,18 +10,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@NoArgsConstructor
+@Data
 @Table(name = "\"user\"")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    private Long userId;
+    private Long id;
 
-    @ManyToMany
-    public Set<Challenge> challenges = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    public Set<UserChallenge> userChallenges = new HashSet<>();
 
     @JsonIgnore
     private String password;
@@ -35,4 +35,13 @@ public class User {
     private String lastName;
 
     private Date birthDate;
+
+    public User(String password, String email, String firstName, String lastName, Date birthDate) {
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+    }
+
 }

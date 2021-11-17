@@ -29,7 +29,7 @@ public class UserServiceImpl implements IService<UserDTO> {
 
     @Override
     public Collection<UserDTO> getAll() {
-        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "userId"));
+        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
 
         return modelMapper.map(users, new TypeToken<List<UserDTO>>(){}.getType());
     }
@@ -45,9 +45,9 @@ public class UserServiceImpl implements IService<UserDTO> {
     public UserDTO addChallenge(UserDTO userDTO, ChallengeDTO challengeDTO) {
         User user = modelMapper.map(userDTO, User.class);
         Challenge challenge = modelMapper.map(challengeDTO, Challenge.class);
-        User _user = userRepository.findById(user.getUserId()).orElseThrow(NoDataException::new);
+        User _user = userRepository.findById(user.getId()).orElseThrow(NoDataException::new);
 
-        _user.getChallenges().add(challenge);
+//        _user.getUserChallenges().add(challenge);
         userRepository.save(_user);
 
         return modelMapper.map(_user, UserDTO.class);

@@ -1,6 +1,5 @@
 package com.herokuapp.runningappbackend.controller;
 
-import com.herokuapp.runningappbackend.dto.ChallengeDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.model.User;
 import com.herokuapp.runningappbackend.service.ChallengeServiceImpl;
@@ -9,7 +8,10 @@ import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
@@ -70,19 +72,4 @@ public class UserController {
         }
     }
 
-    // TODO: change mapping to take RequestBodies as arguments instead (if client app can manage sending them)
-    @PostMapping("/user/{userId}/join-challenge/{challengeId}")
-    public ResponseEntity<UserDTO> addUserToChallenge(@PathVariable("userId") Long userId,
-                                                      @PathVariable("challengeId") Long challengeId) {
-        try {
-            UserDTO user = userService.get(userId);
-            ChallengeDTO challenge = challengeService.get(challengeId);
-
-            UserDTO _userDTO = userService.addChallenge(user, challenge);
-
-            return new ResponseEntity<>(_userDTO, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

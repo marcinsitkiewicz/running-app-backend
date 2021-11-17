@@ -1,6 +1,5 @@
 package com.herokuapp.runningappbackend.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,9 +10,9 @@ import java.util.Set;
 @Setter
 public class ChallengeDTO {
 
-    private Long challengeId;
-    @JsonIgnoreProperties("challenges")
-    private Set<UserDTO> participants;
+    private Long id;
+//    @JsonIgnoreProperties("challenges")
+    private Set<UserChallengeDTO> userChallenges;
     private String name;
     private String description;
     private Double amountToComplete;

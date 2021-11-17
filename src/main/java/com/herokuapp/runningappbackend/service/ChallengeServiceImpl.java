@@ -27,7 +27,7 @@ public class ChallengeServiceImpl implements IService<ChallengeDTO>{
 
     @Override
     public Collection<ChallengeDTO> getAll() {
-        List<Challenge> challenges = challengeRepository.findAll(Sort.by(Sort.Direction.ASC, "challengeId"));
+        List<Challenge> challenges = challengeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
 
         return modelMapper.map(challenges, new TypeToken<List<ChallengeDTO>>(){}.getType());
     }
