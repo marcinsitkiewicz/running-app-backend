@@ -1,5 +1,6 @@
 package com.herokuapp.runningappbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,9 +35,13 @@ public class UserChallenge {
     private Double currentAmount;
 
     @Column(name = "join_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",
+            timezone = "Europe/Warsaw")
     private LocalDateTime joinDate;
 
     @Column(name = "complete_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",
+            timezone = "Europe/Warsaw")
     private LocalDateTime completeDate;
 
     public UserChallenge(User user, Challenge challenge, Double currentAmount, LocalDateTime joinDate) {

@@ -36,6 +36,15 @@ public class User {
 
     private Date birthDate;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Activity> activities;
+
+    @OneToMany(mappedBy = "postAuthor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Post> posts;
+
+    @ManyToMany
+    private Set<Post> likedPosts;
+
     public User(String password, String email, String firstName, String lastName, Date birthDate) {
         this.password = password;
         this.email = email;
@@ -44,4 +53,13 @@ public class User {
         this.birthDate = birthDate;
     }
 
+    public void addLike(Post post) {
+        this.likedPosts.add(post);
+        post.getLikes().add(this);
+    }
+
+    public void removeLike(Post post) {
+        this.likedPosts.remove(post);
+        post.getLikes().remove(this);
+    }
 }
