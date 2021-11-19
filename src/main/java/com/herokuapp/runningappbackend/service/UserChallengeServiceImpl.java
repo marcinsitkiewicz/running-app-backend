@@ -12,6 +12,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
         User user = modelMapper.map(userDTO, User.class);
         Challenge challenge = modelMapper.map(challengeDTO, Challenge.class);
 
-        UserChallenge userChallenge = new UserChallenge(user, challenge, 0.0);
+        UserChallenge userChallenge = new UserChallenge(user, challenge, 0.0, LocalDateTime.now());
         userChallengeRepository.save(userChallenge);
 
         return modelMapper.map(userChallenge, UserChallengeDTO.class);

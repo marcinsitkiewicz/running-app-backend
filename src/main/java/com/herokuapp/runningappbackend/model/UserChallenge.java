@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -32,10 +33,17 @@ public class UserChallenge {
     @Column(name = "current_amount")
     private Double currentAmount;
 
-    public UserChallenge(User user, Challenge challenge, Double currentAmount) {
+    @Column(name = "join_date")
+    private LocalDateTime joinDate;
+
+    @Column(name = "complete_date")
+    private LocalDateTime completeDate;
+
+    public UserChallenge(User user, Challenge challenge, Double currentAmount, LocalDateTime joinDate) {
         this.id = new UserChallengeId(user.getId(), challenge.getId());
         this.user = user;
         this.challenge = challenge;
         this.currentAmount = currentAmount;
+        this.joinDate = joinDate;
     }
 }
