@@ -45,6 +45,9 @@ public class User {
     @ManyToMany
     private Set<Post> likedPosts;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Image userImage;
+
     public User(String password, String email, String firstName, String lastName, Date birthDate) {
         this.password = password;
         this.email = email;

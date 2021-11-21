@@ -34,6 +34,9 @@ public class Post {
     @OneToOne(mappedBy = "activity")
     private Activity activity;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Image postImage;
+
     public Post(User postAuthor, LocalDateTime postedDate) {
         this.postAuthor = postAuthor;
         this.postedDate = postedDate;
