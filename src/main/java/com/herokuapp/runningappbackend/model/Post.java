@@ -20,8 +20,7 @@ public class Post {
     @JsonIgnore
     private Long id;
 
-    @ManyToOne
-    @Column(name = "post_author")
+    @ManyToOne(fetch = FetchType.LAZY)
     private User postAuthor;
 
     @Column(name = "posted_date")
@@ -31,7 +30,7 @@ public class Post {
     @ManyToMany(mappedBy = "likedPosts")
     private Set<User> likes = new HashSet<>();
 
-    @OneToOne(mappedBy = "activity")
+    @OneToOne(mappedBy = "postActivity")
     private Activity activity;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

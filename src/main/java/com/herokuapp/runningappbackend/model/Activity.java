@@ -21,7 +21,7 @@ public class Activity {
     private User user;
 
     @OneToOne
-    private Post post;
+    private Post postActivity;
 
     @ManyToOne
     private UserChallenge userChallenge;
@@ -34,9 +34,9 @@ public class Activity {
 
     //TODO: find a good way to save activity statistics
 
-    public Activity(User user, Post post, UserChallenge userChallenge, LocalDateTime startDate, LocalDateTime endDate) {
+    public Activity(User user, Post postActivity, UserChallenge userChallenge, LocalDateTime startDate, LocalDateTime endDate) {
         this.user = user;
-        this.post = post;
+        this.postActivity = postActivity;
         this.userChallenge = userChallenge;
         this.startDate = startDate;
         this.endDate = endDate;
