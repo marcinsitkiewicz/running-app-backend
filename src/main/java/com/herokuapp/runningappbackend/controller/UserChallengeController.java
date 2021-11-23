@@ -42,7 +42,7 @@ public class UserChallengeController {
     }
 
     @PostMapping("/user/{userId}/join/{challengeId}")
-    public ResponseEntity<UserChallengeDTO> addUserChallenge(@PathVariable("userId") Long userId,
+    public ResponseEntity<UserChallengeDTO> addUserToChallenge(@PathVariable("userId") Long userId,
                                                                @PathVariable("challengeId") Long challengeId) {
         try {
             UserDTO user = userService.get(userId);
