@@ -9,6 +9,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class PostDTO {
+    
     private Long id;
     private UserDTO postAuthor;
     private LocalDateTime postedDate;
