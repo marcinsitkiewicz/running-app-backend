@@ -30,6 +30,8 @@ public class User {
     @JsonIgnore
     private String email;
 
+    private String username;
+
     private String firstName;
 
     private String lastName;

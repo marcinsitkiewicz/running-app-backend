@@ -1,7 +1,7 @@
 package com.herokuapp.runningappbackend.controller;
 
 import com.herokuapp.runningappbackend.dto.ChallengeDTO;
-import com.herokuapp.runningappbackend.dto.ChallengeFormDTO;
+import com.herokuapp.runningappbackend.dto.form.ChallengeFormDTO;
 import com.herokuapp.runningappbackend.model.Challenge;
 import com.herokuapp.runningappbackend.service.ChallengeServiceImpl;
 import com.sipios.springsearch.anotation.SearchSpec;

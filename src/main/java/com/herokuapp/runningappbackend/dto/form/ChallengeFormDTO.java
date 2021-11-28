@@ -1,4 +1,4 @@
-package com.herokuapp.runningappbackend.dto;
+package com.herokuapp.runningappbackend.dto.form;
 
 import lombok.Getter;
 import lombok.Setter;
