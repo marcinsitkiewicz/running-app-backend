@@ -71,7 +71,7 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signin")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginFormDTO loginFormDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginFormDTO.getUsername(), loginFormDTO.getPassword()));
