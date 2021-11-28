@@ -8,8 +8,10 @@ import com.herokuapp.runningappbackend.model.User;
 import com.herokuapp.runningappbackend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,9 +24,15 @@ public class UserServiceImpl implements IService<UserDTO> {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    @Autowired
+    private final PasswordEncoder encoder;
+
+    public UserServiceImpl(UserRepository userRepository,
+                           ModelMapper modelMapper,
+                           PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.encoder = encoder;
     }
 
     @Override
@@ -57,5 +65,13 @@ public class UserServiceImpl implements IService<UserDTO> {
         List<User> users = userRepository.findAll(Specification.where(specs));
 
         return modelMapper.map(users, new TypeToken<List<UserDTO>>(){}.getType());
+    }
+
+    public UserDTO create(UserDTO userDTO) {
+        User user = modelMapper.map(userDTO, User.class);
+        user.setPassword(encoder.encode(user.getPassword()));
+
+        userRepository.save(user);
+        return null;
     }
 }
