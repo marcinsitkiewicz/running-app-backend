@@ -112,6 +112,10 @@ public class ActivityController {
     @Transactional
     @PostMapping("/add-image")
     public ResponseEntity<ActivityDTO> addImage(@RequestParam(name = "mapFile") MultipartFile file) {
+        if (file == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+
         Image image = imageService.create(file, "activity_image");
 
         if (image == null) {
