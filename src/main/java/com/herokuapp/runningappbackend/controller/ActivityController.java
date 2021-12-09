@@ -2,12 +2,14 @@ package com.herokuapp.runningappbackend.controller;
 
 import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
+import com.herokuapp.runningappbackend.dto.form.ActivityFormDTO;
 import com.herokuapp.runningappbackend.model.Activity;
 import com.herokuapp.runningappbackend.model.Image;
 import com.herokuapp.runningappbackend.service.ActivityServiceImpl;
 import com.herokuapp.runningappbackend.service.ImageServiceImpl;
 import com.herokuapp.runningappbackend.service.UserServiceImpl;
 import com.sipios.springsearch.anotation.SearchSpec;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +26,16 @@ public class ActivityController {
     private final ActivityServiceImpl activityService;
     private final ImageServiceImpl imageService;
     private final UserServiceImpl userService;
+    private final ModelMapper modelMapper;
 
     public ActivityController(ActivityServiceImpl activityService,
                               ImageServiceImpl imageService,
-                              UserServiceImpl userService) {
+                              UserServiceImpl userService,
+                              ModelMapper modelMapper) {
         this.activityService = activityService;
         this.imageService = imageService;
         this.userService = userService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/activities")
@@ -103,12 +108,9 @@ public class ActivityController {
     @PostMapping("/add-activity")
     public ResponseEntity<ActivityDTO> addActivity(@RequestParam(name = "mapFile") MultipartFile file,
                                                    @RequestParam(name = "requestBody") String activityFormDTOString) {
-        if (!activityFormDTOString.isEmpty())
-            return new ResponseEntity<>(HttpStatus.OK);
+        activityService.create(modelMapper.map(activityFormDTOString, ActivityFormDTO.class), file);
 
-//        activityService.create(activityFormDTO, file);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Transactional
