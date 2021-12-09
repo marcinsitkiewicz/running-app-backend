@@ -17,6 +17,7 @@ public class Activity {
     @JsonIgnore
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     private User user;
 
@@ -26,22 +27,41 @@ public class Activity {
     @ManyToOne
     private UserChallenge userChallenge;
 
-    @Column(name = "start_date")
-    private LocalDateTime startDate;
-
-    @Column(name = "end_date")
-    private LocalDateTime endDate;
+    @Column(name = "date")
+    private LocalDateTime date;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Image activityImage;
+    private Image mapImage;
 
-    //TODO: total time (minutes), calories, distance, avarage pace, avarage speed, bitmap
+    private String totalTime;
 
-    public Activity(User user, Post postActivity, UserChallenge userChallenge, LocalDateTime startDate, LocalDateTime endDate) {
+    private int calories;
+
+    private int distance;
+
+    private String pace;
+
+    private Float speed;
+
+    public Activity(User user,
+                    Post postActivity,
+                    UserChallenge userChallenge,
+                    LocalDateTime date,
+                    Image mapImage,
+                    String totalTime,
+                    int calories,
+                    int distance,
+                    String pace,
+                    Float speed) {
         this.user = user;
         this.postActivity = postActivity;
         this.userChallenge = userChallenge;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.date = date;
+        this.mapImage = mapImage;
+        this.totalTime = totalTime;
+        this.calories = calories;
+        this.distance = distance;
+        this.pace = pace;
+        this.speed = speed;
     }
 }

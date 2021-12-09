@@ -17,7 +17,7 @@ public class Image {
 
     private String imageType;
 
-    @OneToOne(mappedBy = "activityImage")
+    @OneToOne(mappedBy = "mapImage")
     private Activity activity;
 
     @OneToOne(mappedBy = "userImage")
