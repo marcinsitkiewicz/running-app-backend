@@ -21,10 +21,11 @@ public class ImageServiceImpl {
         this.modelMapper = modelMapper;
     }
 
-    public Image create(MultipartFile file) {
+    public Image create(MultipartFile file, String fileType) {
         Image image = new Image();
         try {
             image.setData(Base64.getEncoder().encode(file.getBytes()));
+            image.setImageType(fileType);
             imageRepository.save(image);
             return image;
         } catch (IOException e) {

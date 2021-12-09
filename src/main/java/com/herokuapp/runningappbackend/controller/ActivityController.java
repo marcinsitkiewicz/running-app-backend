@@ -10,7 +10,9 @@ import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 
@@ -93,9 +95,11 @@ public class ActivityController {
         }
     }
 
+    @Transactional
     @PostMapping("/add-activity")
-    public ResponseEntity<ActivityDTO> addActivity(@RequestBody ActivityFormDTO activityFormDTO) {
-        activityService.create(activityFormDTO);
+    public ResponseEntity<ActivityDTO> addActivity(@RequestParam(name = "mapFile") MultipartFile file,
+                                                   @RequestBody ActivityFormDTO activityFormDTO) {
+        activityService.create(activityFormDTO, file);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

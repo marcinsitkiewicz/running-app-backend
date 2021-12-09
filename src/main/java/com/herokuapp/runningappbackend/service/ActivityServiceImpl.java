@@ -14,6 +14,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -64,9 +65,9 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
         return modelMapper.map(activities, new TypeToken<List<ActivityDTO>>(){}.getType());
     }
 
-    public void create(ActivityFormDTO activityFormDTO) {
-        User user = userRepository.getById(activityFormDTO.getUserId());
-        Image image = imageService.create(activityFormDTO.getFile());
+    public void create(ActivityFormDTO activityFormDTO, MultipartFile file) {
+        User user = userRepository.findById(activityFormDTO.getUserId()).orElseThrow(NoDataException::new);
+        Image image = imageService.create(file, "activity_image");
         Activity activity = new Activity(
                 user,
                 LocalDateTime.now(),
