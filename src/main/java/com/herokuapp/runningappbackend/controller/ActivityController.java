@@ -2,7 +2,6 @@ package com.herokuapp.runningappbackend.controller;
 
 import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
-import com.herokuapp.runningappbackend.dto.form.ActivityFormDTO;
 import com.herokuapp.runningappbackend.model.Activity;
 import com.herokuapp.runningappbackend.model.Image;
 import com.herokuapp.runningappbackend.service.ActivityServiceImpl;
@@ -103,10 +102,13 @@ public class ActivityController {
     @Transactional
     @PostMapping("/add-activity")
     public ResponseEntity<ActivityDTO> addActivity(@RequestParam(name = "mapFile") MultipartFile file,
-                                                   @RequestParam(name = "requestBody") ActivityFormDTO activityFormDTO) {
-        activityService.create(activityFormDTO, file);
+                                                   @RequestParam(name = "requestBody") String activityFormDTOString) {
+        if (!activityFormDTOString.isEmpty())
+            return new ResponseEntity<>(HttpStatus.OK);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+//        activityService.create(activityFormDTO, file);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Transactional
