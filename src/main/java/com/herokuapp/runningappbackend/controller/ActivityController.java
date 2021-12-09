@@ -2,6 +2,7 @@ package com.herokuapp.runningappbackend.controller;
 
 import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
+import com.herokuapp.runningappbackend.dto.form.ActivityFormDTO;
 import com.herokuapp.runningappbackend.model.Activity;
 import com.herokuapp.runningappbackend.service.ActivityServiceImpl;
 import com.herokuapp.runningappbackend.service.UserServiceImpl;
@@ -9,10 +10,7 @@ import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -93,5 +91,12 @@ public class ActivityController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/add-activity")
+    public ResponseEntity<ActivityDTO> addActivity(@RequestBody ActivityFormDTO activityFormDTO) {
+        activityService.create(activityFormDTO);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

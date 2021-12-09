@@ -44,8 +44,7 @@ public class Activity {
     private Float speed;
 
     public Activity(User user,
-                    Post postActivity,
-                    UserChallenge userChallenge,
+//                    UserChallenge userChallenge,
                     LocalDateTime date,
                     Image mapImage,
                     String totalTime,
@@ -54,8 +53,7 @@ public class Activity {
                     String pace,
                     Float speed) {
         this.user = user;
-        this.postActivity = postActivity;
-        this.userChallenge = userChallenge;
+//        this.userChallenge = userChallenge;
         this.date = date;
         this.mapImage = mapImage;
         this.totalTime = totalTime;
