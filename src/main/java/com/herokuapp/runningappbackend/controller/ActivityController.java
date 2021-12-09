@@ -103,7 +103,7 @@ public class ActivityController {
     @Transactional
     @PostMapping("/add-activity")
     public ResponseEntity<ActivityDTO> addActivity(@RequestParam(name = "mapFile") MultipartFile file,
-                                                   @RequestBody ActivityFormDTO activityFormDTO) {
+                                                   @RequestParam ActivityFormDTO activityFormDTO) {
         activityService.create(activityFormDTO, file);
 
         return new ResponseEntity<>(HttpStatus.OK);
