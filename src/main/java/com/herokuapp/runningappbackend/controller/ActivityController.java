@@ -4,7 +4,9 @@ import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.dto.form.ActivityFormDTO;
 import com.herokuapp.runningappbackend.model.Activity;
+import com.herokuapp.runningappbackend.model.Image;
 import com.herokuapp.runningappbackend.service.ActivityServiceImpl;
+import com.herokuapp.runningappbackend.service.ImageServiceImpl;
 import com.herokuapp.runningappbackend.service.UserServiceImpl;
 import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,11 +23,14 @@ import java.util.Collection;
 public class ActivityController {
 
     private final ActivityServiceImpl activityService;
+    private final ImageServiceImpl imageService;
     private final UserServiceImpl userService;
 
     public ActivityController(ActivityServiceImpl activityService,
+                              ImageServiceImpl imageService,
                               UserServiceImpl userService) {
         this.activityService = activityService;
+        this.imageService = imageService;
         this.userService = userService;
     }
 
@@ -100,6 +105,18 @@ public class ActivityController {
     public ResponseEntity<ActivityDTO> addActivity(@RequestParam(name = "mapFile") MultipartFile file,
                                                    @RequestBody ActivityFormDTO activityFormDTO) {
         activityService.create(activityFormDTO, file);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Transactional
+    @PostMapping("/add-image")
+    public ResponseEntity<ActivityDTO> addImage(@RequestParam(name = "mapFile") MultipartFile file) {
+        Image image = imageService.create(file, "activity_image");
+
+        if (image == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
