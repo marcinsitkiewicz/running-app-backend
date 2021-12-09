@@ -1,5 +1,6 @@
 package com.herokuapp.runningappbackend.controller;
 
+import com.google.gson.Gson;
 import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.dto.form.ActivityFormDTO;
@@ -108,7 +109,9 @@ public class ActivityController {
     @PostMapping("/add-activity")
     public ResponseEntity<ActivityDTO> addActivity(@RequestParam(name = "mapFile") MultipartFile file,
                                                    @RequestParam(name = "requestBody") String activityFormDTOString) {
-        activityService.create(modelMapper.map(activityFormDTOString, ActivityFormDTO.class), file);
+        Gson gson = new Gson();
+        ActivityFormDTO activityFormDTO = gson.fromJson(activityFormDTOString, ActivityFormDTO.class);
+        activityService.create(activityFormDTO, file);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
