@@ -15,5 +15,4 @@ public class PostDTO {
     private LocalDateTime postedDate;
     private Set<UserDTO> likes;
     private ActivityDTO activity;
-    private ImageDTO postImage;
 }

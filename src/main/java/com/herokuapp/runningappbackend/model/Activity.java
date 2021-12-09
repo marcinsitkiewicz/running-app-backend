@@ -32,7 +32,10 @@ public class Activity {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
-    //TODO: find a good way to save activity statistics
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Image activityImage;
+
+    //TODO: total time (minutes), calories, distance, avarage pace, avarage speed, bitmap
 
     public Activity(User user, Post postActivity, UserChallenge userChallenge, LocalDateTime startDate, LocalDateTime endDate) {
         this.user = user;

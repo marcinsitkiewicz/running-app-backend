@@ -10,6 +10,6 @@ public class ImageDTO {
     private long id;
     private byte[] data;
     private String imageType;
-    private PostDTO post;
+    private ActivityDTO activity;
     private UserDTO user;
 }

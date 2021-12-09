@@ -15,4 +15,5 @@ public class ActivityDTO {
     private UserChallengeDTO userChallenge;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private ImageDTO postImage;
 }
