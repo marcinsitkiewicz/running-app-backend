@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -26,14 +24,14 @@ public class Post {
     @Column(name = "posted_date")
     private LocalDateTime postedDate;
 
-    @Column(name = "likes")
-    @ManyToMany(mappedBy = "likedPosts")
-    private Set<User> likes = new HashSet<>();
+//    @Column(name = "likes")
+//    @ManyToMany(mappedBy = "likedPosts")
+//    private Set<User> likes = new HashSet<>();
 
-    @OneToOne(mappedBy = "postActivity")
-    private Activity activity;
+//    @OneToOne(mappedBy = "postActivity")
+//    private Activity activity;
 
-    public Post(User postAuthor, LocalDateTime postedDate) {
+    public Post(User postAuthor, LocalDateTime postedDate, Activity activity) {
         this.postAuthor = postAuthor;
         this.postedDate = postedDate;
     }

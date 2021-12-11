@@ -1,11 +1,12 @@
 package com.herokuapp.runningappbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -14,18 +15,14 @@ import java.time.LocalDateTime;
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
-    @JsonIgnore
     @ManyToOne
     private User user;
 
-    @OneToOne
-    private Post postActivity;
-
-    @ManyToOne
-    private UserChallenge userChallenge;
+//    @OneToOne
+//    @JsonIgnore
+//    private Post postActivity;
 
     @Column(name = "date")
     private LocalDateTime date;
@@ -43,17 +40,22 @@ public class Activity {
 
     private Float speed;
 
+    private Boolean isPosted;
+
+    @Column(name = "likes")
+    @ManyToMany(mappedBy = "likedActivities")
+    private Set<User> likes = new HashSet<>();
+
     public Activity(User user,
-//                    UserChallenge userChallenge,
                     LocalDateTime date,
                     Image mapImage,
                     String totalTime,
                     int calories,
                     int distance,
                     String pace,
-                    Float speed) {
+                    Float speed,
+                    Boolean isPosted) {
         this.user = user;
-//        this.userChallenge = userChallenge;
         this.date = date;
         this.mapImage = mapImage;
         this.totalTime = totalTime;
@@ -61,5 +63,15 @@ public class Activity {
         this.distance = distance;
         this.pace = pace;
         this.speed = speed;
+        this.isPosted = isPosted;
+    }
+
+    public int getLikesAmount() {
+        return likes.size();
+    }
+
+    public void unlike(User user) {
+        this.likes.remove(user);
+        user.getLikedActivities().remove(this);
     }
 }

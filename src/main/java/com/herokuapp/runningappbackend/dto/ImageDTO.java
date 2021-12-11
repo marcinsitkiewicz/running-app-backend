@@ -8,8 +8,10 @@ import lombok.Setter;
 public class ImageDTO {
 
     private long id;
-    private byte[] data;
+    private String data;
     private String imageType;
-    private ActivityDTO activity;
-    private UserDTO user;
+//    @JsonIgnore
+//    private ActivityDTO activity;
+//    @JsonIgnore
+//    private UserDTO user;
 }

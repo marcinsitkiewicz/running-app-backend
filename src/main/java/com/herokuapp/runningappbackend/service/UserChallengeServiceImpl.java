@@ -10,6 +10,7 @@ import com.herokuapp.runningappbackend.repository.UserChallengeRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,6 +33,12 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
         List<UserChallenge> userChallanges = userChallengeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
 
         return modelMapper.map(userChallanges, new TypeToken<List<UserChallengeDTO>>(){}.getType());
+    }
+
+    public Collection<UserChallengeDTO> queryAll(Specification<UserChallenge> specs) {
+        List<UserChallenge> userChallanges = userChallengeRepository.findAll(Specification.where(specs));
+
+        return modelMapper.map(userChallanges, new TypeToken<List<UserDTO>>(){}.getType());
     }
 
     @Override

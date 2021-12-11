@@ -14,7 +14,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -105,10 +104,10 @@ public class ActivityController {
         }
     }
 
-    @Transactional
     @PostMapping("/add-activity")
     public ResponseEntity<ActivityDTO> addActivity(@RequestParam(name = "mapFile") MultipartFile file,
                                                    @RequestParam(name = "requestBody") String activityFormDTOString) {
+        // TODO: change back from Gson to ModelMapper
         Gson gson = new Gson();
         ActivityFormDTO activityFormDTO = gson.fromJson(activityFormDTOString, ActivityFormDTO.class);
         activityService.create(activityFormDTO, file);
@@ -116,7 +115,6 @@ public class ActivityController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Transactional
     @PostMapping("/add-image")
     public ResponseEntity<ActivityDTO> addImage(@RequestParam(name = "mapFile") MultipartFile file) {
         if (file == null) {
@@ -128,6 +126,13 @@ public class ActivityController {
         if (image == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/change-activity-post-status/{id}")
+    public ResponseEntity<ActivityDTO> changeActivityPostStatus(@PathVariable("id") Long id) {
+        activityService.changePostStatus(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

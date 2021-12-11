@@ -3,9 +3,12 @@ package com.herokuapp.runningappbackend.controller;
 import com.herokuapp.runningappbackend.dto.ChallengeDTO;
 import com.herokuapp.runningappbackend.dto.UserChallengeDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
+import com.herokuapp.runningappbackend.model.UserChallenge;
 import com.herokuapp.runningappbackend.service.ChallengeServiceImpl;
 import com.herokuapp.runningappbackend.service.UserChallengeServiceImpl;
 import com.herokuapp.runningappbackend.service.UserServiceImpl;
+import com.sipios.springsearch.anotation.SearchSpec;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,21 @@ public class UserChallengeController {
     public ResponseEntity<Collection<UserChallengeDTO>> getAllChallenges() {
         try {
             Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAll();
+
+            if (userChallengesDTO.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(userChallengesDTO, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/user-challenges/query")
+    public ResponseEntity<Collection<UserChallengeDTO>> getAllActivities(@SearchSpec Specification<UserChallenge> specs) {
+        try {
+            Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.queryAll(specs);
 
             if (userChallengesDTO.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

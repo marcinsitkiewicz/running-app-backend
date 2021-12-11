@@ -1,22 +1,20 @@
 package com.herokuapp.runningappbackend.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 public class ActivityDTO {
 
     private Long id;
-    @JsonIgnore
     private UserDTO user;
-    @JsonIgnore
-    private PostDTO postActivity;
-    @JsonIgnore
-    private UserChallengeDTO userChallenge;
+//    @JsonIgnore
+//    private PostDTO postActivity;
     private LocalDateTime date;
     private ImageDTO mapImage;
     private String totalTime;
@@ -24,4 +22,6 @@ public class ActivityDTO {
     private int distance;
     private String pace;
     private Float speed;
+    private Boolean isPosted;
+    private Set<UserDTO> likes = new HashSet<>();
 }

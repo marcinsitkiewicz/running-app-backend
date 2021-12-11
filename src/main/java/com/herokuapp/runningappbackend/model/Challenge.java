@@ -22,6 +22,7 @@ public class Challenge {
     private Long id;
 
     @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<UserChallenge> userChallenges = new HashSet<>();
 
     @Column(nullable = false, length = 100)

@@ -5,6 +5,8 @@ import com.herokuapp.runningappbackend.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class UserChallengeDTO {
@@ -13,4 +15,6 @@ public class UserChallengeDTO {
     private User user;
     private Challenge challenge;
     private Double currentAmount;
+    private LocalDateTime joinDate;
+    private LocalDateTime completeDate;
 }

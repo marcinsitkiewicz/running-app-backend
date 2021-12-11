@@ -21,6 +21,7 @@ public class User {
     private Long id;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     public Set<UserChallenge> userChallenges = new HashSet<>();
 
     @JsonIgnore
@@ -39,13 +40,16 @@ public class User {
     private Date birthDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Activity> activities;
 
     @OneToMany(mappedBy = "postAuthor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Post> posts;
 
     @ManyToMany
-    private Set<Post> likedPosts;
+    @JsonIgnore
+    private Set<Activity> likedActivities;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Image userImage;
@@ -58,13 +62,13 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public void addLike(Post post) {
-        this.likedPosts.add(post);
-        post.getLikes().add(this);
+    public void addLike(Activity activity) {
+        this.likedActivities.add(activity);
+        activity.getLikes().add(this);
     }
 
-    public void removeLike(Post post) {
-        this.likedPosts.remove(post);
-        post.getLikes().remove(this);
+    public void removeLike(Activity activity) {
+        this.likedActivities.remove(activity);
+        activity.getLikes().remove(this);
     }
 }

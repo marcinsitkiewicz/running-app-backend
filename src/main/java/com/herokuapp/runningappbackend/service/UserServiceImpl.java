@@ -1,10 +1,13 @@
 package com.herokuapp.runningappbackend.service;
 
+import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.ChallengeDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.exception.NoDataException;
+import com.herokuapp.runningappbackend.model.Activity;
 import com.herokuapp.runningappbackend.model.Challenge;
 import com.herokuapp.runningappbackend.model.User;
+import com.herokuapp.runningappbackend.repository.ActivityRepository;
 import com.herokuapp.runningappbackend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,15 +25,18 @@ import java.util.List;
 public class UserServiceImpl implements IService<UserDTO> {
 
     private final UserRepository userRepository;
+    private final ActivityRepository activityRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
     private final PasswordEncoder encoder;
 
     public UserServiceImpl(UserRepository userRepository,
+                           ActivityRepository activityRepository,
                            ModelMapper modelMapper,
                            PasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.activityRepository = activityRepository;
         this.modelMapper = modelMapper;
         this.encoder = encoder;
     }
@@ -73,5 +79,17 @@ public class UserServiceImpl implements IService<UserDTO> {
 
         userRepository.save(user);
         return null;
+    }
+
+    @Transactional
+    public UserDTO update(UserDTO userDTO, ActivityDTO activityDTO) {
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(NoDataException::new);
+        Activity activity = activityRepository.findById(activityDTO.getId()).orElseThrow(NoDataException::new);
+        if (user.getLikedActivities().contains(activity)) {
+            user.removeLike(activity);
+        } else {
+            user.addLike(activity);
+        }
+        return userDTO;
     }
 }

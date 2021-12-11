@@ -16,7 +16,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,17 +41,19 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
     }
 
     @Override
+    @Transactional
     public Collection<ActivityDTO> getAll() {
         List<Activity> activities = activityRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
 
-        return modelMapper.map(activities, new TypeToken<List<ActivityDTO>>(){}.getType());
+        return getActivityDTOS(activities);
     }
 
     @Override
+    @Transactional
     public ActivityDTO get(Long id) {
         Activity activity = activityRepository.findById(id).orElseThrow(NoDataException::new);
 
-        return modelMapper.map(activity, ActivityDTO.class);
+        return activityToActivityDTO(activity);
     }
 
     public Collection<ActivityDTO> queryAll(Specification<Activity> specs) {
@@ -76,7 +80,34 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
                 activityFormDTO.getCalories(),
                 activityFormDTO.getDistance(),
                 activityFormDTO.getPace(),
-                activityFormDTO.getSpeed());
+                activityFormDTO.getSpeed(),
+                false
+        );
         activityRepository.save(activity);
+    }
+
+    public void changePostStatus(Long id) {
+        Activity activity = activityRepository.findById(id).orElseThrow(NoDataException::new);
+
+        if (!activity.getIsPosted() || activity.getIsPosted() == null)
+            activity.setIsPosted(true);
+        else if (activity.getIsPosted())
+            activity.setIsPosted(false);
+
+        activityRepository.save(activity);
+    }
+
+    public ActivityDTO activityToActivityDTO(Activity activity) {
+        ActivityDTO activityDTO = modelMapper.map(activity, ActivityDTO.class);
+        activityDTO.setMapImage(imageService.imageToImageDTO(activity.getMapImage()));
+        return activityDTO;
+    }
+
+    private Collection<ActivityDTO> getActivityDTOS(Collection<Activity> activities) {
+        List<ActivityDTO> activitiesDTO = new ArrayList<>();
+        for (Activity activity : activities) {
+            activitiesDTO.add(activityToActivityDTO(activity));
+        }
+        return activitiesDTO;
     }
 }
