@@ -62,7 +62,7 @@ public class ActivityController {
             Collection<ActivityDTO> activitiesDTO = activityService.queryAll(specs);
 
             if (activitiesDTO.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
                 Collections.reverse((List<?>) activitiesDTO);
                 return new ResponseEntity<>(activitiesDTO, HttpStatus.OK);
@@ -78,7 +78,7 @@ public class ActivityController {
             ActivityDTO activityDTO = activityService.get(id);
 
             if (activityDTO == null) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
                 return new ResponseEntity<>(activityDTO, HttpStatus.OK);
             }
@@ -93,12 +93,12 @@ public class ActivityController {
             UserDTO user = userService.get(id);
 
             if (user == null) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
                 Collection<ActivityDTO> activitiesDTO = activityService.getAllByUser(user);
 
                 if (activitiesDTO.isEmpty()) {
-                    return new ResponseEntity<>(activitiesDTO ,HttpStatus.NOT_FOUND);
+                    return ResponseEntity.noContent().header("Content-Length", "0").build();
                 } else {
                     Collections.reverse((List<?>) activitiesDTO);
                     return new ResponseEntity<>(activitiesDTO, HttpStatus.OK);
