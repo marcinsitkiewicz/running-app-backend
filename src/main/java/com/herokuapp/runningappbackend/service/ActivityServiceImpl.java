@@ -56,10 +56,11 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
         return activityToActivityDTO(activity);
     }
 
+    @Transactional
     public Collection<ActivityDTO> queryAll(Specification<Activity> specs) {
         List<Activity> activities = activityRepository.findAll(Specification.where(specs));
 
-        return modelMapper.map(activities, new TypeToken<List<ActivityDTO>>(){}.getType());
+        return getActivityDTOS(activities);
     }
 
     public Collection<ActivityDTO> getAllByUser(UserDTO userDTO) {
