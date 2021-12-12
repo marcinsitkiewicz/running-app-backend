@@ -22,5 +22,6 @@ public class ActivityDTO {
     private Float speed;
     private Boolean isPosted;
     private int likesAmount;
+    private LocalDateTime datePosted;
 //    private Set<UserDTO> likes = new HashSet<>();
 }

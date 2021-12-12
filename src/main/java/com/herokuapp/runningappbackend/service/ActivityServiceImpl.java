@@ -65,7 +65,7 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
     @Transactional
     public Collection<ActivityDTO> getAllByUser(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
-        List<Activity> activities = activityRepository.findAllByUser(user);
+        List<Activity> activities = activityRepository.findAllByUserOrderById(user);
 
         return getActivityDTOS(activities);
     }
@@ -90,8 +90,10 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
     public void changePostStatus(Long id) {
         Activity activity = activityRepository.findById(id).orElseThrow(NoDataException::new);
 
-        if (!activity.getIsPosted() || activity.getIsPosted() == null)
+        if (!activity.getIsPosted() || activity.getIsPosted() == null) {
             activity.setIsPosted(true);
+            activity.setDatePosted(LocalDateTime.now());
+        }
         else if (activity.getIsPosted())
             activity.setIsPosted(false);
 

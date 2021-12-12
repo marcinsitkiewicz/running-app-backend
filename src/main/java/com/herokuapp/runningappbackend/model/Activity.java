@@ -40,6 +40,8 @@ public class Activity {
 
     private Boolean isPosted;
 
+    private LocalDateTime datePosted;
+
 //    @Column(name = "likes")
 //    @ManyToMany(mappedBy = "likedActivities")
 //    private Set<User> likes = new HashSet<>();
