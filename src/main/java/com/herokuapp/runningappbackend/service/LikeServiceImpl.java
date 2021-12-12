@@ -55,11 +55,13 @@ public class LikeServiceImpl implements IService<LikeDTO> {
 
         if (alreadyLiked.isEmpty()) {
             add(userId, activityId);
+            return;
         }
 
         for (Like like: alreadyLiked) {
             if (like.getActivityId().equals(activityId)) {
                 delete(like, activityId);
+                return;
             }
         }
 

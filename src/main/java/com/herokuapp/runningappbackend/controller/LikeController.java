@@ -67,7 +67,7 @@ public class LikeController {
     }
 
     @RequestMapping(value = "update-like/user/{userId}/activity/{activityId}",
-            method={RequestMethod.POST,RequestMethod.PUT})
+            method={RequestMethod.POST,RequestMethod.DELETE})
     public ResponseEntity<LikeDTO> updateLike(@PathVariable("userId") Long userId,
                                               @PathVariable("activityId") Long activityId) {
         try {
