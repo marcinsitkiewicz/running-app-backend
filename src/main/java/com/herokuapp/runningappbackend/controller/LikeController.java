@@ -66,18 +66,14 @@ public class LikeController {
         }
     }
 
-    @RequestMapping(value = "add-like/user/{userId}/activity/{activityId}",
+    @RequestMapping(value = "update-like/user/{userId}/activity/{activityId}",
             method={RequestMethod.POST,RequestMethod.PUT})
-    public ResponseEntity<LikeDTO> createLike(@PathVariable("userId") Long userId,
+    public ResponseEntity<LikeDTO> updateLike(@PathVariable("userId") Long userId,
                                               @PathVariable("activityId") Long activityId) {
         try {
-            LikeDTO like = likeService.create(userId, activityId);
+            likeService.update(userId, activityId);
 
-            if (like == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-            } else {
-                return new ResponseEntity<>(like, HttpStatus.OK);
-            }
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

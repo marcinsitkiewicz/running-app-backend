@@ -50,14 +50,23 @@ public class LikeServiceImpl implements IService<LikeDTO> {
         return modelMapper.map(likes, new TypeToken<List<LikeDTO>>(){}.getType());
     }
 
-    public LikeDTO create(Long userId, Long activityId) {
+    public void update(Long userId, Long activityId) {
         List<Like> alreadyLiked = likeRepository.findAllByUserId(userId);
+
+        if (alreadyLiked.isEmpty()) {
+            add(userId, activityId);
+        }
+
         for (Like like: alreadyLiked) {
             if (like.getActivityId().equals(activityId)) {
-                return null;
+                delete(like, activityId);
             }
         }
 
+        add(userId, activityId);
+    }
+
+    public void add(Long userId, Long activityId) {
         Like like = new Like();
         like.setActivityId(activityId);
         like.setUserId(userId);
@@ -66,7 +75,13 @@ public class LikeServiceImpl implements IService<LikeDTO> {
         Activity activity = activityRepository.findById(activityId).orElseThrow(NoDataException::new);
         activity.setLikesAmount(activity.getLikesAmount()+1);
         activityRepository.save(activity);
+    }
 
-        return modelMapper.map(like, LikeDTO.class);
+    public void delete(Like like, Long activityId) {
+        likeRepository.delete(like);
+
+        Activity activity = activityRepository.findById(activityId).orElseThrow(NoDataException::new);
+        activity.setLikesAmount(activity.getLikesAmount()-1);
+        activityRepository.save(activity);
     }
 }
