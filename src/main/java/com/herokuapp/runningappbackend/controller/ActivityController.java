@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -61,6 +63,7 @@ public class ActivityController {
             if (activitiesDTO.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
+                Collections.reverse((List<?>) activitiesDTO);
                 return new ResponseEntity<>(activitiesDTO, HttpStatus.OK);
             }
         } catch (Exception e) {
