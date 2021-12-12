@@ -67,6 +67,7 @@ public class Activity {
         this.speed = speed;
         this.isPosted = isPosted;
         this.likesAmount = 0;
+        this.datePosted = LocalDateTime.now();
     }
 
 //    public int getLikesAmount() {

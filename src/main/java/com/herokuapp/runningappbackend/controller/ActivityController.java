@@ -64,7 +64,7 @@ public class ActivityController {
             if (activitiesDTO.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
-                Collections.reverse((List<?>) activitiesDTO);
+//                Collections.reverse((List<?>) activitiesDTO);
                 return new ResponseEntity<>(activitiesDTO, HttpStatus.OK);
             }
         } catch (Exception e) {

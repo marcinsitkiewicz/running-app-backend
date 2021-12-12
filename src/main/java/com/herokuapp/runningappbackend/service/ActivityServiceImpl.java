@@ -57,7 +57,7 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
 
     @Transactional
     public Collection<ActivityDTO> queryAll(Specification<Activity> specs) {
-        List<Activity> activities = activityRepository.findAll(Specification.where(specs));
+        List<Activity> activities = activityRepository.findAll(Specification.where(specs), Sort.by(Sort.Direction.DESC, "datePosted"));
 
         return getActivityDTOS(activities);
     }
