@@ -1,5 +1,6 @@
 package com.herokuapp.runningappbackend.service;
 
+import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.ChallengeDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.exception.NoDataException;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -77,6 +79,19 @@ public class UserServiceImpl implements IService<UserDTO> {
 
         userRepository.save(user);
         return null;
+    }
+
+    public long getDistance(Collection<ActivityDTO> activitiesDTO) {
+        long distance = 0;
+        LocalDateTime todayDateTime = LocalDateTime.now();
+        LocalDateTime firstDayOfMonthDateTime = todayDateTime.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(1);
+        for (ActivityDTO activityDTO: activitiesDTO) {
+            if (activityDTO.getDate().isAfter(firstDayOfMonthDateTime)) {
+                distance += activityDTO.getDistance();
+            }
+        }
+
+        return distance;
     }
 
 //    @Transactional

@@ -10,7 +10,6 @@ import com.herokuapp.runningappbackend.model.User;
 import com.herokuapp.runningappbackend.repository.ActivityRepository;
 import com.herokuapp.runningappbackend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -63,11 +62,12 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
         return getActivityDTOS(activities);
     }
 
+    @Transactional
     public Collection<ActivityDTO> getAllByUser(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
         List<Activity> activities = activityRepository.findAllByUser(user);
 
-        return modelMapper.map(activities, new TypeToken<List<ActivityDTO>>(){}.getType());
+        return getActivityDTOS(activities);
     }
 
     public void create(ActivityFormDTO activityFormDTO, MultipartFile file) {

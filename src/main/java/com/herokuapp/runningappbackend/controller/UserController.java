@@ -1,5 +1,6 @@
 package com.herokuapp.runningappbackend.controller;
 
+import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.model.User;
 import com.herokuapp.runningappbackend.service.ActivityServiceImpl;
@@ -83,5 +84,17 @@ public class UserController {
                                                 @PathVariable("activityId") Long activityId) {
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/get-monthly-distance/user/{id}")
+    public ResponseEntity<Long> getDistanceByUserId(@PathVariable("id") Long id) {
+        try {
+            UserDTO user = userService.get(id);
+            Collection<ActivityDTO> activitiesDTO = activityService.getAllByUser(user);
+            long distance = userService.getDistance(activitiesDTO);
+            return new ResponseEntity<>(distance, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
