@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -42,9 +40,11 @@ public class Activity {
 
     private Boolean isPosted;
 
-    @Column(name = "likes")
-    @ManyToMany(mappedBy = "likedActivities")
-    private Set<User> likes = new HashSet<>();
+//    @Column(name = "likes")
+//    @ManyToMany(mappedBy = "likedActivities")
+//    private Set<User> likes = new HashSet<>();
+
+    private int likesAmount;
 
     public Activity(User user,
                     LocalDateTime date,
@@ -64,14 +64,15 @@ public class Activity {
         this.pace = pace;
         this.speed = speed;
         this.isPosted = isPosted;
+        this.likesAmount = 0;
     }
 
-    public int getLikesAmount() {
-        return likes.size();
-    }
-
-    public void unlike(User user) {
-        this.likes.remove(user);
-        user.getLikedActivities().remove(this);
-    }
+//    public int getLikesAmount() {
+//        return likes.size();
+//    }
+//
+//    public void unlike(User user) {
+//        this.likes.remove(user);
+//        user.getLikedActivities().remove(this);
+//    }
 }

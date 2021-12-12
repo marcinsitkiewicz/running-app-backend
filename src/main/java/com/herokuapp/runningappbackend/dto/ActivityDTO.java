@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -23,5 +21,6 @@ public class ActivityDTO {
     private String pace;
     private Float speed;
     private Boolean isPosted;
-    private Set<UserDTO> likes = new HashSet<>();
+    private int likesAmount;
+//    private Set<UserDTO> likes = new HashSet<>();
 }

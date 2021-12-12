@@ -1,10 +1,10 @@
 package com.herokuapp.runningappbackend.controller;
 
-import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.model.User;
 import com.herokuapp.runningappbackend.service.ActivityServiceImpl;
 import com.herokuapp.runningappbackend.service.ChallengeServiceImpl;
+import com.herokuapp.runningappbackend.service.LikeServiceImpl;
 import com.herokuapp.runningappbackend.service.UserServiceImpl;
 import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,13 +21,16 @@ public class UserController {
     private final UserServiceImpl userService;
     private final ChallengeServiceImpl challengeService;
     private final ActivityServiceImpl activityService;
+    private final LikeServiceImpl likeService;
 
     public UserController(UserServiceImpl userService,
                           ChallengeServiceImpl challengeService,
-                          ActivityServiceImpl activityService) {
+                          ActivityServiceImpl activityService,
+                          LikeServiceImpl likeService) {
         this.userService = userService;
         this.challengeService = challengeService;
         this.activityService = activityService;
+        this.likeService = likeService;
     }
 
     @GetMapping("/users")
@@ -78,9 +81,7 @@ public class UserController {
     @PostMapping(value = "/users/{userId}/like-activity/{activityId}")
     public ResponseEntity<UserDTO> likeActivity(@PathVariable("userId") Long userId,
                                                 @PathVariable("activityId") Long activityId) {
-        UserDTO userDTO = userService.get(userId);
-        ActivityDTO activityDTO = activityService.get(activityId);
-        userService.update(userDTO, activityDTO);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

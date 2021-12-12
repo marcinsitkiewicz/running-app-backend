@@ -1,10 +1,8 @@
 package com.herokuapp.runningappbackend.service;
 
-import com.herokuapp.runningappbackend.dto.ActivityDTO;
 import com.herokuapp.runningappbackend.dto.ChallengeDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.exception.NoDataException;
-import com.herokuapp.runningappbackend.model.Activity;
 import com.herokuapp.runningappbackend.model.Challenge;
 import com.herokuapp.runningappbackend.model.User;
 import com.herokuapp.runningappbackend.repository.ActivityRepository;
@@ -81,15 +79,15 @@ public class UserServiceImpl implements IService<UserDTO> {
         return null;
     }
 
-    @Transactional
-    public UserDTO update(UserDTO userDTO, ActivityDTO activityDTO) {
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(NoDataException::new);
-        Activity activity = activityRepository.findById(activityDTO.getId()).orElseThrow(NoDataException::new);
-        if (user.getLikedActivities().contains(activity)) {
-            user.removeLike(activity);
-        } else {
-            user.addLike(activity);
-        }
-        return userDTO;
-    }
+//    @Transactional
+//    public UserDTO update(UserDTO userDTO, ActivityDTO activityDTO) {
+//        User user = userRepository.findById(userDTO.getId()).orElseThrow(NoDataException::new);
+//        Activity activity = activityRepository.findById(activityDTO.getId()).orElseThrow(NoDataException::new);
+//        if (user.getLikedActivities().contains(activity)) {
+//            user.removeLike(activity);
+//        } else {
+//            user.addLike(activity);
+//        }
+//        return userDTO;
+//    }
 }

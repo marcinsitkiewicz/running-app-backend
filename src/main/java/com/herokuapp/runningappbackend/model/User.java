@@ -47,9 +47,9 @@ public class User {
     @JsonIgnore
     private Set<Post> posts;
 
-    @ManyToMany
-    @JsonIgnore
-    private Set<Activity> likedActivities;
+//    @ManyToMany
+//    @JsonIgnore
+//    private Set<Activity> likedActivities;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Image userImage;
@@ -61,14 +61,14 @@ public class User {
         this.lastName = lastName;
         this.birthDate = birthDate;
     }
-
-    public void addLike(Activity activity) {
-        this.likedActivities.add(activity);
-        activity.getLikes().add(this);
-    }
-
-    public void removeLike(Activity activity) {
-        this.likedActivities.remove(activity);
-        activity.getLikes().remove(this);
-    }
+//
+//    public void addLike(Activity activity) {
+//        this.likedActivities.add(activity);
+//        activity.getLikes().add(this);
+//    }
+//
+//    public void removeLike(Activity activity) {
+//        this.likedActivities.remove(activity);
+//        activity.getLikes().remove(this);
+//    }
 }
