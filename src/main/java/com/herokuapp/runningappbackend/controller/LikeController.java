@@ -3,6 +3,7 @@ package com.herokuapp.runningappbackend.controller;
 import com.herokuapp.runningappbackend.dto.LikeDTO;
 import com.herokuapp.runningappbackend.model.Like;
 import com.herokuapp.runningappbackend.service.LikeServiceImpl;
+import com.herokuapp.runningappbackend.service.UserServiceImpl;
 import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,11 @@ import java.util.Collection;
 public class LikeController {
 
     private final LikeServiceImpl likeService;
+    private final UserServiceImpl userService;
 
-    public LikeController(LikeServiceImpl likeService) {
+    public LikeController(LikeServiceImpl likeService,
+                          UserServiceImpl userService) {
+        this.userService = userService;
         this.likeService = likeService;
     }
 
@@ -60,6 +64,21 @@ public class LikeController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(like, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/likes/user/{id}")
+    public ResponseEntity<Collection<LikeDTO>> getLikeByUserId(@PathVariable("id") Long userId) {
+        try {
+            Collection<LikeDTO> likes = likeService.getAllByUserId(userId);
+
+            if (likes.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>(likes, HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

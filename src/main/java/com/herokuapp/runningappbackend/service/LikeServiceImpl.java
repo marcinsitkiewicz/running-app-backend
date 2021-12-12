@@ -50,6 +50,12 @@ public class LikeServiceImpl implements IService<LikeDTO> {
         return modelMapper.map(likes, new TypeToken<List<LikeDTO>>(){}.getType());
     }
 
+    public Collection<LikeDTO> getAllByUserId(Long userId) {
+        List<Like> likes = likeRepository.findAllByUserId(userId);
+
+        return modelMapper.map(likes, new TypeToken<List<LikeDTO>>(){}.getType());
+    }
+
     public void update(Long userId, Long activityId) {
         List<Like> alreadyLiked = likeRepository.findAllByUserId(userId);
 
