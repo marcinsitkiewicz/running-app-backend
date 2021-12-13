@@ -2,12 +2,14 @@ package com.herokuapp.runningappbackend.controller;
 
 import com.google.gson.Gson;
 import com.herokuapp.runningappbackend.dto.ActivityDTO;
+import com.herokuapp.runningappbackend.dto.UserChallengeDTO;
 import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.dto.form.ActivityFormDTO;
 import com.herokuapp.runningappbackend.model.Activity;
 import com.herokuapp.runningappbackend.model.Image;
 import com.herokuapp.runningappbackend.service.ActivityServiceImpl;
 import com.herokuapp.runningappbackend.service.ImageServiceImpl;
+import com.herokuapp.runningappbackend.service.UserChallengeServiceImpl;
 import com.herokuapp.runningappbackend.service.UserServiceImpl;
 import com.sipios.springsearch.anotation.SearchSpec;
 import org.modelmapper.ModelMapper;
@@ -28,15 +30,18 @@ public class ActivityController {
     private final ActivityServiceImpl activityService;
     private final ImageServiceImpl imageService;
     private final UserServiceImpl userService;
+    private final UserChallengeServiceImpl userChallengeService;
     private final ModelMapper modelMapper;
 
     public ActivityController(ActivityServiceImpl activityService,
                               ImageServiceImpl imageService,
                               UserServiceImpl userService,
+                              UserChallengeServiceImpl userChallengeService,
                               ModelMapper modelMapper) {
         this.activityService = activityService;
         this.imageService = imageService;
         this.userService = userService;
+        this.userChallengeService = userChallengeService;
         this.modelMapper = modelMapper;
     }
 
@@ -109,13 +114,17 @@ public class ActivityController {
         }
     }
 
-    @PostMapping("/add-activity")
+    @RequestMapping(value = "/add-activity", method={RequestMethod.POST,RequestMethod.PUT})
     public ResponseEntity<ActivityDTO> addActivity(@RequestParam(name = "mapFile") MultipartFile file,
                                                    @RequestParam(name = "requestBody") String activityFormDTOString) {
         // TODO: change back from Gson to ModelMapper
         Gson gson = new Gson();
         ActivityFormDTO activityFormDTO = gson.fromJson(activityFormDTOString, ActivityFormDTO.class);
         activityService.create(activityFormDTO, file);
+
+        UserDTO userDTO = userService.get(activityFormDTO.getUserId());
+        Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAllByUser(userDTO);
+        userChallengeService.update(userChallengesDTO, activityFormDTO.getDistance());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

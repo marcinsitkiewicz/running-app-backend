@@ -32,7 +32,7 @@ public class UserChallenge {
     private Challenge challenge;
 
     @Column(name = "current_amount")
-    private Double currentAmount;
+    private int currentAmount;
 
     @Column(name = "join_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",
@@ -44,11 +44,14 @@ public class UserChallenge {
             timezone = "Europe/Warsaw")
     private LocalDateTime completeDate;
 
-    public UserChallenge(User user, Challenge challenge, Double currentAmount, LocalDateTime joinDate) {
+    private Boolean isCompleted;
+
+    public UserChallenge(User user, Challenge challenge, int currentAmount, LocalDateTime joinDate) {
         this.id = new UserChallengeId(user.getId(), challenge.getId());
         this.user = user;
         this.challenge = challenge;
         this.currentAmount = currentAmount;
         this.joinDate = joinDate;
+        this.isCompleted = false;
     }
 }

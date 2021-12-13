@@ -35,7 +35,7 @@ public class UserChallengeController {
             Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAll();
 
             if (userChallengesDTO.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
                 return new ResponseEntity<>(userChallengesDTO, HttpStatus.OK);
             }
@@ -50,7 +50,23 @@ public class UserChallengeController {
             Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.queryAll(specs);
 
             if (userChallengesDTO.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>(userChallengesDTO, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/user-challenges/user/{userId}")
+    public ResponseEntity<Collection<UserChallengeDTO>> getAllUserChallenges(@PathVariable("userId") Long userId) {
+        try {
+            UserDTO userDTO = userService.get(userId);
+            Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAllByUser(userDTO);
+
+            if (userChallengesDTO.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
                 return new ResponseEntity<>(userChallengesDTO, HttpStatus.OK);
             }
@@ -63,10 +79,23 @@ public class UserChallengeController {
     public ResponseEntity<UserChallengeDTO> addUserToChallenge(@PathVariable("userId") Long userId,
                                                                @PathVariable("challengeId") Long challengeId) {
         try {
-            UserDTO user = userService.get(userId);
-            ChallengeDTO challenge = challengeService.get(challengeId);
+            UserDTO userDTO = userService.get(userId);
+            ChallengeDTO challengeDTO = challengeService.get(challengeId);
 
-            UserChallengeDTO userChallengeDTO = userChallengeService.add(user, challenge);
+            Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAllByUser(userDTO);
+            if (!userChallengesDTO.isEmpty()) {
+                for (UserChallengeDTO userChallengeDTO: userChallengesDTO) {
+                    if (!userChallengeDTO.getIsCompleted() ||
+                        userChallengeDTO.getChallenge().getId().equals(challengeId))
+                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            }
+
+            UserChallengeDTO userChallengeDTO = userChallengeService.add(userDTO, challengeDTO);
+
+            if (userChallengeDTO == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
             return new ResponseEntity<>(userChallengeDTO, HttpStatus.OK);
         } catch (Exception e) {

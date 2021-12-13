@@ -27,15 +27,18 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
     private final ActivityRepository activityRepository;
     private final UserRepository userRepository;
     private final ImageServiceImpl imageService;
+    private final UserChallengeServiceImpl userChallengeService;
     private final ModelMapper modelMapper;
 
     public ActivityServiceImpl(ActivityRepository activityRepository,
                                UserRepository userRepository,
                                ImageServiceImpl imageService,
+                               UserChallengeServiceImpl userChallengeService,
                                ModelMapper modelMapper) {
         this.activityRepository = activityRepository;
         this.userRepository = userRepository;
         this.imageService = imageService;
+        this.userChallengeService = userChallengeService;
         this.modelMapper = modelMapper;
     }
 
