@@ -75,7 +75,7 @@ public class UserChallengeController {
         }
     }
 
-    @PostMapping("/user/{userId}/join/{challengeId}")
+    @RequestMapping(value = "/user/{userId}/join/{challengeId}", method={RequestMethod.POST,RequestMethod.PUT})
     public ResponseEntity<UserChallengeDTO> addUserToChallenge(@PathVariable("userId") Long userId,
                                                                @PathVariable("challengeId") Long challengeId) {
         try {
@@ -103,11 +103,12 @@ public class UserChallengeController {
         }
     }
 
-    @DeleteMapping("/user/{userId}/leave/{challengeId}")
+    @RequestMapping(value = "/user/{userId}/leave/{challengeId}", method={RequestMethod.DELETE,RequestMethod.PUT})
     public ResponseEntity<UserChallengeDTO> removeUserFromChallenge(@PathVariable("userId") Long userId,
                                                                @PathVariable("challengeId") Long challengeId) {
         try {
             UserDTO userDTO = userService.get(userId);
+            ChallengeDTO challengeDTO = challengeService.get(challengeId);
 
             Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAllByUser(userDTO);
             if (userChallengesDTO.isEmpty()) {
@@ -119,7 +120,7 @@ public class UserChallengeController {
                     userChallengeDTO.getChallenge().getId().equals(challengeId) &&
                     !userChallengeDTO.getIsCompleted()) {
 
-                    userChallengeService.delete(userChallengeDTO);
+                    userChallengeService.delete(userChallengeDTO, challengeDTO);
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
             }

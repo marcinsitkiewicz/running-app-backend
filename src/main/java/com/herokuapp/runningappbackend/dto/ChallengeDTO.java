@@ -20,4 +20,5 @@ public class ChallengeDTO {
     private Double amountToComplete;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Long participantsAmount;
 }

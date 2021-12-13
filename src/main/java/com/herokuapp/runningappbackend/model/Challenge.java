@@ -41,11 +41,14 @@ public class Challenge {
                 timezone = "Europe/Warsaw")
     private LocalDateTime endDate;
 
+    private Long participantsAmount;
+
     public Challenge(String name, String description, Double amountToComplete, LocalDateTime startDate, LocalDateTime endDate) {
         this.name = name;
         this.description = description;
         this.amountToComplete = amountToComplete;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.participantsAmount = 0L;
     }
 }

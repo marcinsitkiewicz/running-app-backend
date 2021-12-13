@@ -12,7 +12,7 @@ public class UserChallengeDTO {
     private UserChallengeIdDTO id;
     private UserDTO user;
     private ChallengeDTO challenge;
-    private int currentAmount;
+    private Double currentAmount;
     private LocalDateTime joinDate;
     private LocalDateTime completeDate;
     private Boolean isCompleted;

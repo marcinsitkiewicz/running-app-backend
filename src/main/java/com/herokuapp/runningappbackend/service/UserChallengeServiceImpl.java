@@ -6,6 +6,7 @@ import com.herokuapp.runningappbackend.dto.UserDTO;
 import com.herokuapp.runningappbackend.model.Challenge;
 import com.herokuapp.runningappbackend.model.User;
 import com.herokuapp.runningappbackend.model.UserChallenge;
+import com.herokuapp.runningappbackend.repository.ChallengeRepository;
 import com.herokuapp.runningappbackend.repository.UserChallengeRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,10 +23,14 @@ import java.util.List;
 public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
 
     private final UserChallengeRepository userChallengeRepository;
+    private final ChallengeRepository challengeRepository;
     private final ModelMapper modelMapper;
 
-    public UserChallengeServiceImpl(UserChallengeRepository userChallengeRepository, ModelMapper modelMapper) {
+    public UserChallengeServiceImpl(UserChallengeRepository userChallengeRepository,
+                                    ChallengeRepository challengeRepository,
+                                    ModelMapper modelMapper) {
         this.userChallengeRepository = userChallengeRepository;
+        this.challengeRepository = challengeRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -51,16 +56,24 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
         User user = modelMapper.map(userDTO, User.class);
         Challenge challenge = modelMapper.map(challengeDTO, Challenge.class);
 
-        UserChallenge userChallenge = new UserChallenge(user, challenge, 0, LocalDateTime.now());
+        UserChallenge userChallenge = new UserChallenge(user, challenge, 0.0, LocalDateTime.now());
         userChallengeRepository.save(userChallenge);
+
+        challenge.setParticipantsAmount(challenge.getParticipantsAmount()+1);
+        challengeRepository.save(challenge);
 
         return modelMapper.map(userChallenge, UserChallengeDTO.class);
     }
 
-    public void delete(UserChallengeDTO userChallengeDTO) {
+    public void delete(UserChallengeDTO userChallengeDTO, ChallengeDTO challengeDTO) {
         UserChallenge userChallenge = modelMapper.map(userChallengeDTO, UserChallenge.class);
+        Challenge challenge = modelMapper.map(challengeDTO, Challenge.class);
 
-        userChallengeRepository.delete(userChallenge);
+        challenge.setParticipantsAmount(challenge.getParticipantsAmount()-1);
+        challenge.getUserChallenges().remove(userChallenge);
+        challengeRepository.save(challenge);
+
+//        userChallengeRepository.delete(userChallenge);
     }
 
     public Collection<UserChallengeDTO> getAllByUser(UserDTO userDTO) {
