@@ -57,6 +57,12 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
         return modelMapper.map(userChallenge, UserChallengeDTO.class);
     }
 
+    public void delete(UserChallengeDTO userChallengeDTO) {
+        UserChallenge userChallenge = modelMapper.map(userChallengeDTO, UserChallenge.class);
+
+        userChallengeRepository.delete(userChallenge);
+    }
+
     public Collection<UserChallengeDTO> getAllByUser(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
 

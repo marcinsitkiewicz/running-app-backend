@@ -102,4 +102,31 @@ public class UserChallengeController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping("/user/{userId}/leave/{challengeId}")
+    public ResponseEntity<UserChallengeDTO> removeUserFromChallenge(@PathVariable("userId") Long userId,
+                                                               @PathVariable("challengeId") Long challengeId) {
+        try {
+            UserDTO userDTO = userService.get(userId);
+
+            Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAllByUser(userDTO);
+            if (userChallengesDTO.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            for (UserChallengeDTO userChallengeDTO: userChallengesDTO) {
+                if (userChallengeDTO.getUser().getId().equals(userId) &&
+                    userChallengeDTO.getChallenge().getId().equals(challengeId) &&
+                    !userChallengeDTO.getIsCompleted()) {
+
+                    userChallengeService.delete(userChallengeDTO);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
