@@ -98,7 +98,7 @@ public class ActivityController {
                 Collection<ActivityDTO> activitiesDTO = activityService.getAllByUser(user);
 
                 if (activitiesDTO.isEmpty()) {
-                    return ResponseEntity.noContent().header("Content-Length", "0").build();
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 } else {
                     Collections.reverse((List<?>) activitiesDTO);
                     return new ResponseEntity<>(activitiesDTO, HttpStatus.OK);
