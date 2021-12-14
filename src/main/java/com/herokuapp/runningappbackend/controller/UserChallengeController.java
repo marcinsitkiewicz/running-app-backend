@@ -78,7 +78,7 @@ public class UserChallengeController {
         }
     }
 
-    @RequestMapping(value = "/user/{userId}/join/{challengeId}", method={RequestMethod.POST,RequestMethod.PUT})
+    @RequestMapping(value = "/user/{userId}/join-challenge/{challengeId}", method={RequestMethod.POST,RequestMethod.PUT})
     public ResponseEntity<UserChallengeDTO> addUserToChallenge(@PathVariable("userId") Long userId,
                                                                @PathVariable("challengeId") Long challengeId) {
         try {
@@ -106,7 +106,7 @@ public class UserChallengeController {
         }
     }
 
-    @RequestMapping(value = "/user/{userId}/leave/{challengeId}", method={RequestMethod.DELETE,RequestMethod.PUT})
+    @RequestMapping(value = "/user/{userId}/leave-challenge/{challengeId}", method={RequestMethod.DELETE,RequestMethod.PUT})
     public ResponseEntity<UserChallengeDTO> removeUserFromChallenge(@PathVariable("userId") Long userId,
                                                                @PathVariable("challengeId") Long challengeId) {
         try {
