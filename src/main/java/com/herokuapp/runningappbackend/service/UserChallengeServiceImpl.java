@@ -102,9 +102,9 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
             if (userChallenge.getChallenge().getStartDate().isBefore(LocalDateTime.now()) &&
                     userChallenge.getChallenge().getEndDate().isAfter(LocalDateTime.now())) {
 
-                userChallenge.setCurrentAmount(userChallenge.getCurrentAmount() + distance/1000.0);
+                userChallenge.setCurrentAmount(userChallenge.getCurrentAmount() + distance);
 
-                if (userChallenge.getCurrentAmount() >= userChallenge.getChallenge().getAmountToComplete()) {
+                if (userChallenge.getCurrentAmount() >= userChallenge.getChallenge().getAmountToComplete()*1000) {
                     userChallenge.setIsCompleted(true);
                     userChallenge.setCompleteDate(LocalDateTime.now());
                 }
