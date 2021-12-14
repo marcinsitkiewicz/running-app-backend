@@ -20,7 +20,7 @@ public class User {
     @JsonIgnore
     private Long id;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     public Set<UserChallenge> userChallenges = new HashSet<>();
 
@@ -43,9 +43,9 @@ public class User {
     @JsonIgnore
     private Set<Activity> activities;
 
-    @OneToMany(mappedBy = "postAuthor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Set<Post> posts;
+//    @OneToMany(mappedBy = "postAuthor", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnore
+//    private Set<Post> posts;
 
 //    @ManyToMany
 //    @JsonIgnore

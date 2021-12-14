@@ -14,6 +14,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -69,18 +70,18 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
         return modelMapper.map(userChallenge, UserChallengeDTO.class);
     }
 
+    @Transactional
     public void delete(UserChallengeDTO userChallengeDTO, ChallengeDTO challengeDTO, UserDTO userDTO) {
         UserChallenge userChallenge = modelMapper.map(userChallengeDTO, UserChallenge.class);
         Challenge challenge = modelMapper.map(challengeDTO, Challenge.class);
         User user = modelMapper.map(userDTO, User.class);
 
         challenge.setParticipantsAmount(challenge.getParticipantsAmount()-1);
+        challengeRepository.save(challenge);
+
         userChallenge.deleteUser();
         userChallenge.deleteChallenge();
-        userChallenge.deleteId();
         userChallengeRepository.delete(userChallenge);
-
-        challengeRepository.save(challenge);
     }
 
     public Collection<UserChallengeDTO> getAllByUser(UserDTO userDTO) {

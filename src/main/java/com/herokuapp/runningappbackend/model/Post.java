@@ -18,8 +18,8 @@ public class Post {
     @JsonIgnore
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User postAuthor;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private User postAuthor;
 
     @Column(name = "posted_date")
     private LocalDateTime postedDate;
@@ -32,7 +32,7 @@ public class Post {
 //    private Activity activity;
 
     public Post(User postAuthor, LocalDateTime postedDate, Activity activity) {
-        this.postAuthor = postAuthor;
+//        this.postAuthor = postAuthor;
         this.postedDate = postedDate;
     }
 }

@@ -21,7 +21,7 @@ public class Challenge {
     @JsonIgnore
     private Long id;
 
-    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<UserChallenge> userChallenges = new HashSet<>();
 

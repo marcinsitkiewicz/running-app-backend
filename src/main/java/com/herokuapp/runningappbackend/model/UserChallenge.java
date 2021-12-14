@@ -16,18 +16,23 @@ import java.time.LocalDateTime;
 @Table(name = "user_challenge")
 public class UserChallenge {
 
-    @EmbeddedId
-    private UserChallengeId id;
+//    @EmbeddedId
+//    private UserChallengeId id;
 
-    @ManyToOne
-    @MapsId(value = "userId")
-    @JoinColumn(name = "user_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @MapsId(value = "userId")
+//    @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
-    @ManyToOne
-    @MapsId(value = "challengeId")
-    @JoinColumn(name = "challenge_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @MapsId(value = "challengeId")
+//    @JoinColumn(name = "challenge_id")
     @JsonIgnore
     private Challenge challenge;
 
@@ -47,7 +52,7 @@ public class UserChallenge {
     private Boolean isCompleted;
 
     public UserChallenge(User user, Challenge challenge, Double currentAmount, LocalDateTime joinDate) {
-        this.id = new UserChallengeId(user.getId(), challenge.getId());
+//        this.id = new UserChallengeId(user.getId(), challenge.getId());
         this.user = user;
         this.challenge = challenge;
         this.currentAmount = currentAmount;

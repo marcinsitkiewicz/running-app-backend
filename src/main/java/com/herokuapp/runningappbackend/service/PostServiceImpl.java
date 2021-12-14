@@ -64,7 +64,7 @@ public class PostServiceImpl implements IService<PostDTO> {
         User user = userRepository.findById(userId).orElseThrow(NoDataException::new);
 
         Post post = new Post();
-        post.setPostAuthor(user);
+//        post.setPostAuthor(user);
         post.setPostedDate(LocalDateTime.now());
 //        post.setActivity(activity);
 

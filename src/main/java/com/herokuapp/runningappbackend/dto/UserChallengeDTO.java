@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class UserChallengeDTO {
 
-    private UserChallengeIdDTO id;
+    private Long id;
     private UserDTO user;
     private ChallengeDTO challenge;
     private Double currentAmount;
