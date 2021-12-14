@@ -32,7 +32,7 @@ public class Activity {
 
     private int calories;
 
-    private int distance;
+    private Double distance;
 
     private String pace;
 
@@ -53,7 +53,7 @@ public class Activity {
                     Image mapImage,
                     String totalTime,
                     int calories,
-                    int distance,
+                    Double distance,
                     String pace,
                     Float speed,
                     Boolean isPosted) {

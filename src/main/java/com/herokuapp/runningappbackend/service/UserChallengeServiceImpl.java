@@ -8,6 +8,7 @@ import com.herokuapp.runningappbackend.model.User;
 import com.herokuapp.runningappbackend.model.UserChallenge;
 import com.herokuapp.runningappbackend.repository.ChallengeRepository;
 import com.herokuapp.runningappbackend.repository.UserChallengeRepository;
+import com.herokuapp.runningappbackend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Sort;
@@ -24,13 +25,16 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
 
     private final UserChallengeRepository userChallengeRepository;
     private final ChallengeRepository challengeRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
     public UserChallengeServiceImpl(UserChallengeRepository userChallengeRepository,
                                     ChallengeRepository challengeRepository,
+                                    UserRepository userRepository,
                                     ModelMapper modelMapper) {
         this.userChallengeRepository = userChallengeRepository;
         this.challengeRepository = challengeRepository;
+        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -65,15 +69,18 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
         return modelMapper.map(userChallenge, UserChallengeDTO.class);
     }
 
-    public void delete(UserChallengeDTO userChallengeDTO, ChallengeDTO challengeDTO) {
+    public void delete(UserChallengeDTO userChallengeDTO, ChallengeDTO challengeDTO, UserDTO userDTO) {
         UserChallenge userChallenge = modelMapper.map(userChallengeDTO, UserChallenge.class);
         Challenge challenge = modelMapper.map(challengeDTO, Challenge.class);
+        User user = modelMapper.map(userDTO, User.class);
 
         challenge.setParticipantsAmount(challenge.getParticipantsAmount()-1);
-        challenge.getUserChallenges().remove(userChallenge);
-        challengeRepository.save(challenge);
+        userChallenge.deleteUser();
+        userChallenge.deleteChallenge();
+        userChallenge.deleteId();
+        userChallengeRepository.delete(userChallenge);
 
-//        userChallengeRepository.delete(userChallenge);
+        challengeRepository.save(challenge);
     }
 
     public Collection<UserChallengeDTO> getAllByUser(UserDTO userDTO) {
@@ -95,7 +102,7 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
             if (userChallenge.getChallenge().getStartDate().isBefore(LocalDateTime.now()) &&
                     userChallenge.getChallenge().getEndDate().isAfter(LocalDateTime.now())) {
 
-                userChallenge.setCurrentAmount(userChallenge.getCurrentAmount() + distance);
+                userChallenge.setCurrentAmount(userChallenge.getCurrentAmount() + distance/1000.0);
 
                 if (userChallenge.getCurrentAmount() >= userChallenge.getChallenge().getAmountToComplete()) {
                     userChallenge.setIsCompleted(true);

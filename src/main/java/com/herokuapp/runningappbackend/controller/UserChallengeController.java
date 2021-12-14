@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -68,6 +70,7 @@ public class UserChallengeController {
             if (userChallengesDTO.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
+                Collections.reverse((List<?>) userChallengesDTO);
                 return new ResponseEntity<>(userChallengesDTO, HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -97,7 +100,7 @@ public class UserChallengeController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            return new ResponseEntity<>(userChallengeDTO, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -120,7 +123,7 @@ public class UserChallengeController {
                     userChallengeDTO.getChallenge().getId().equals(challengeId) &&
                     !userChallengeDTO.getIsCompleted()) {
 
-                    userChallengeService.delete(userChallengeDTO, challengeDTO);
+                    userChallengeService.delete(userChallengeDTO, challengeDTO, userDTO);
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
             }

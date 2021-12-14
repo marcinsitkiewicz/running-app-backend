@@ -17,7 +17,7 @@ public class ActivityDTO {
     private ImageDTO mapImage;
     private String totalTime;
     private int calories;
-    private int distance;
+    private Double distance;
     private String pace;
     private Float speed;
     private Boolean isPosted;

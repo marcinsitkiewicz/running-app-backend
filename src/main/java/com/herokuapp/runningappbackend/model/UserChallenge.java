@@ -54,4 +54,18 @@ public class UserChallenge {
         this.joinDate = joinDate;
         this.isCompleted = false;
     }
+
+    public void deleteUser() {
+        this.user.deleteUserChallenge(this);
+        this.user = null;
+    }
+
+    public void deleteChallenge() {
+        this.challenge.deleteUserChallenge(this);
+        this.challenge = null;
+    }
+
+    public void deleteId() {
+        this.id = null;
+    }
 }

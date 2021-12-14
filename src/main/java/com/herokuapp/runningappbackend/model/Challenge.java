@@ -21,7 +21,7 @@ public class Challenge {
     @JsonIgnore
     private Long id;
 
-    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<UserChallenge> userChallenges = new HashSet<>();
 
@@ -50,5 +50,14 @@ public class Challenge {
         this.startDate = startDate;
         this.endDate = endDate;
         this.participantsAmount = 0L;
+    }
+
+    public void deleteUserChallenge(UserChallenge userChallenge) {
+        this.userChallenges.remove(userChallenge);
+    }
+
+    public void deleteUserChallenges() {
+        this.userChallenges.forEach(UserChallenge::deleteChallenge);
+        this.userChallenges.clear();
     }
 }

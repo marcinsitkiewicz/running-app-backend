@@ -61,6 +61,15 @@ public class User {
         this.lastName = lastName;
         this.birthDate = birthDate;
     }
+
+    public void deleteUserChallenge(UserChallenge userChallenge) {
+        this.userChallenges.remove(userChallenge);
+    }
+
+    public void deleteUserChallenges() {
+        this.userChallenges.forEach(UserChallenge::deleteUser);
+        this.userChallenges.clear();
+    }
 //
 //    public void addLike(Activity activity) {
 //        this.likedActivities.add(activity);

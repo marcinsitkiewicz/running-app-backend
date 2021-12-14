@@ -82,7 +82,7 @@ public class ActivityServiceImpl implements IService<ActivityDTO> {
                 image,
                 activityFormDTO.getTotalTime(),
                 activityFormDTO.getCalories(),
-                activityFormDTO.getDistance(),
+                activityFormDTO.getDistance()/1000.0,
                 activityFormDTO.getPace(),
                 activityFormDTO.getSpeed(),
                 false
