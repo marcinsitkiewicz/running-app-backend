@@ -91,6 +91,7 @@ public class UserChallengeServiceImpl implements IService<UserChallengeDTO> {
         return modelMapper.map(userChallenges, new TypeToken<List<UserChallengeDTO>>(){}.getType());
     }
 
+    // TODO: check whether challenge has already ended
     public void update(Collection<UserChallengeDTO> userChallengesDTO, int distance) {
         Collection<UserChallenge> userChallenges = modelMapper.map(userChallengesDTO, new TypeToken<Collection<UserChallenge>>(){}.getType());
 

@@ -31,6 +31,7 @@ public class Challenge {
     @Column(length = 1000)
     private String description;
 
+    // TODO: change in services from kilometers to meters
     private Double amountToComplete;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",

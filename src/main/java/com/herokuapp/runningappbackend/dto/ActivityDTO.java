@@ -11,8 +11,6 @@ public class ActivityDTO {
 
     private Long id;
     private UserDTO user;
-//    @JsonIgnore
-//    private PostDTO postActivity;
     private LocalDateTime date;
     private ImageDTO mapImage;
     private String totalTime;
@@ -23,5 +21,4 @@ public class ActivityDTO {
     private Boolean isPosted;
     private int likesAmount;
     private LocalDateTime datePosted;
-//    private Set<UserDTO> likes = new HashSet<>();
 }

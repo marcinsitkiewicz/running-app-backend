@@ -23,43 +23,43 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api")
-public class ActivityController {
+    @RestController
+    @RequestMapping("/api")
+    public class ActivityController {
 
-    private final ActivityServiceImpl activityService;
-    private final ImageServiceImpl imageService;
-    private final UserServiceImpl userService;
-    private final UserChallengeServiceImpl userChallengeService;
-    private final ModelMapper modelMapper;
+        private final ActivityServiceImpl activityService;
+        private final ImageServiceImpl imageService;
+        private final UserServiceImpl userService;
+        private final UserChallengeServiceImpl userChallengeService;
+        private final ModelMapper modelMapper;
 
-    public ActivityController(ActivityServiceImpl activityService,
-                              ImageServiceImpl imageService,
-                              UserServiceImpl userService,
-                              UserChallengeServiceImpl userChallengeService,
-                              ModelMapper modelMapper) {
-        this.activityService = activityService;
-        this.imageService = imageService;
-        this.userService = userService;
-        this.userChallengeService = userChallengeService;
-        this.modelMapper = modelMapper;
-    }
-
-    @GetMapping("/activities")
-    public ResponseEntity<Collection<ActivityDTO>> getAllActivities() {
-        try {
-            Collection<ActivityDTO> activitiesDTO = activityService.getAll();
-
-            if (activitiesDTO.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            } else {
-                Collections.reverse((List<?>) activitiesDTO);
-                return new ResponseEntity<>(activitiesDTO, HttpStatus.OK);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        public ActivityController(ActivityServiceImpl activityService,
+                                  ImageServiceImpl imageService,
+                                  UserServiceImpl userService,
+                                  UserChallengeServiceImpl userChallengeService,
+                                  ModelMapper modelMapper) {
+            this.activityService = activityService;
+            this.imageService = imageService;
+            this.userService = userService;
+            this.userChallengeService = userChallengeService;
+            this.modelMapper = modelMapper;
         }
-    }
+
+        @GetMapping("/activities")
+        public ResponseEntity<Collection<ActivityDTO>> getAllActivities() {
+            try {
+                Collection<ActivityDTO> activitiesDTO = activityService.getAll();
+
+                if (activitiesDTO.isEmpty()) {
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                } else {
+                    Collections.reverse((List<?>) activitiesDTO);
+                    return new ResponseEntity<>(activitiesDTO, HttpStatus.OK);
+                }
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
 
     @GetMapping("/activities/query")
     public ResponseEntity<Collection<ActivityDTO>> getAllActivities(@SearchSpec Specification<Activity> specs) {
@@ -149,5 +149,9 @@ public class ActivityController {
         activityService.changePostStatus(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ModelMapper getModelMapper() {
+        return modelMapper;
     }
 }
