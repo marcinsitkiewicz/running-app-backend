@@ -37,7 +37,7 @@ public class UserChallengeController {
             Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAll();
 
             if (userChallengesDTO.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(userChallengesDTO, HttpStatus.OK);
             }
@@ -52,7 +52,7 @@ public class UserChallengeController {
             Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.queryAll(specs);
 
             if (userChallengesDTO.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(userChallengesDTO, HttpStatus.OK);
             }
@@ -68,7 +68,7 @@ public class UserChallengeController {
             Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAllByUser(userDTO);
 
             if (userChallengesDTO.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 Collections.reverse((List<?>) userChallengesDTO);
                 return new ResponseEntity<>(userChallengesDTO, HttpStatus.OK);
@@ -115,7 +115,7 @@ public class UserChallengeController {
 
             Collection<UserChallengeDTO> userChallengesDTO = userChallengeService.getAllByUser(userDTO);
             if (userChallengesDTO.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
             for (UserChallengeDTO userChallengeDTO: userChallengesDTO) {

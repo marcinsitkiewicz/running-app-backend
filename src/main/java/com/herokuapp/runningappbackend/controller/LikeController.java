@@ -76,7 +76,7 @@ public class LikeController {
             Collection<LikeDTO> likes = likeService.getAllByUserId(userId);
 
             if (likes.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } else {
                 return new ResponseEntity<>(likes, HttpStatus.OK);
             }
