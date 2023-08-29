@@ -1,7 +1,6 @@
 package com.herokuapp.runningappbackend.security.jwt;
 
 import com.herokuapp.runningappbackend.service.UserDetailsServiceImpl;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request,
-                                    @NotNull HttpServletResponse response,
-                                    @NotNull FilterChain filterChain) throws
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws
             ServletException, IOException {
         try {
             String jwt = parseJwt(request);

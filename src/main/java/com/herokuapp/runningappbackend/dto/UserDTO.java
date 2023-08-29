@@ -9,18 +9,17 @@ import java.util.Set;
 
 @Getter
 @Setter
-    public class UserDTO {
+public class UserDTO {
 
-        private Long id;
-        @JsonIgnore
-        private Set<UserChallengeDTO> userChallenges;
-        @JsonIgnore
-        private String password;
-        @JsonIgnore
-        private String email;
-        private String username;
-        private String firstName;
-        private String lastName;
-        private Date birthDate;
-    }
-
+    private Long id;
+    @JsonIgnore
+    private Set<UserChallengeDTO> userChallenges;
+    @JsonIgnore
+    private String password;
+    @JsonIgnore
+    private String email;
+    private String username;
+    private String firstName;
+    private String lastName;
+    private Date birthDate;
+}
